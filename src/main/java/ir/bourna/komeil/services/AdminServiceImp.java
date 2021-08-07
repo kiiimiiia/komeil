@@ -166,7 +166,7 @@ public class AdminServiceImp implements AdminService {
     @Override
     public ResponseEntity<List<ProductItemResponseDTO>> getProduct(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getProduct_role()){
+
             Iterable<ProductItem> productItems1 = productItemRepository.findAll();
             List<ProductItem> productItems =Lists.newArrayList(productItems1);
             List<ProductItemResponseDTO> productItemResponseDTOS = new ArrayList<>();
@@ -189,41 +189,32 @@ public class AdminServiceImp implements AdminService {
                 productItemResponseDTOS.add(productItemResponseDTO);
             }
             return ResponseEntity.ok(productItemResponseDTOS);
-        }
-        else{
-            return ResponseEntity.ok(new ArrayList<>());
-        }
+
 
     }
 
     @Override
     public ResponseEntity<List<Blog>> getBlog(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getNews_role()){
+
             List<Blog> blogList = blogRepository.findAll();
             return ResponseEntity.ok(blogList);
-        }
-        else{
-            return ResponseEntity.ok(new ArrayList<>());
-        }
+
     }
 
     @Override
     public ResponseEntity<List<Filter>> getFilter(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getFilter_role()){
+
             List<Filter> filterList = filterRepository.findAll();
             return ResponseEntity.ok(filterList);
-        }
-        else{
-            return ResponseEntity.ok(new ArrayList<>());
-        }
+
     }
 
     @Override
     public ResponseEntity<List<BannerResponseDTO>> getBanner(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getBanner_role()){
+
             List<Banner> bannerList = bannerRepository.findAll();
             List<BannerResponseDTO> bannerResponseDTOS = new ArrayList<>();
             for(int i=0;i<bannerList.size();i++)
@@ -237,16 +228,13 @@ public class AdminServiceImp implements AdminService {
                 bannerResponseDTOS.add(bannerResponseDTO);
             }
             return ResponseEntity.ok(bannerResponseDTOS);
-        }
-        else{
-            return ResponseEntity.ok(new ArrayList<>());
-        }
+
     }
 
     @Override
     public ResponseEntity<List<ProductCategoryResponseDTO>> getCategory(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getCategory_role()){
+
             Iterable<ProductCategory> productItems1 = productCategoryRepository.findAll();
             List<ProductCategory> productCategories =Lists.newArrayList(productItems1);
             List<ProductCategoryResponseDTO> productCategoryList = new ArrayList<>();
@@ -262,10 +250,7 @@ public class AdminServiceImp implements AdminService {
                 productCategoryList.add(productCategoryResponseDTOS);
             }
             return ResponseEntity.ok(productCategoryList);
-        }
-        else{
-            return ResponseEntity.ok(new ArrayList<>());
-        }
+
     }
 
 
@@ -631,7 +616,7 @@ else{
     @Override
     public ResponseEntity<List<BrandResponseDTO>> getbarnd(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getBrand_role()){
+
             List<Brand> brands = brandRepository.findAll();
             List<BrandResponseDTO> brandResponseDTOS = new ArrayList<>();
             for(int i=0;i<brands.size();i++)
@@ -645,10 +630,7 @@ else{
                 brandResponseDTOS.add(brandResponseDTO);
             }
             return ResponseEntity.ok(brandResponseDTOS);
-        }
-        else{
-      return ResponseEntity.ok(new ArrayList<>());
-        }
+
     }
 
     @Override
@@ -797,7 +779,7 @@ else{
     @Override
     public List<AmazingOfferResponseDTO> getAmazingOffer(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getProduct_role()){
+
             List<AmazingOfferResponseDTO> amazingOfferResponseDTOS = new ArrayList<>();
             Iterable<AmazingOffer> iterable  =  amazingOfferRepository.findAll();
 
@@ -814,9 +796,6 @@ else{
                 amazingOfferResponseDTOS.add(amazingOfferResponseDTO);
             }
             return amazingOfferResponseDTOS;
-        }
-        else
-            return new ArrayList<>();
 
     }
 
@@ -850,12 +829,9 @@ else{
     @Override
     public ResponseEntity<List<Transport>> getTransport(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getTransport_role()){
+
             List<Transport> transports = transportRepository.findAll();
             return ResponseEntity.ok(transports);
-        }
-        else
-            return ResponseEntity.ok(new ArrayList<>());
 
     }
 
@@ -981,11 +957,9 @@ else{
     @Override
     public ResponseEntity<List<Color>> getcolor(String username) {
         Admins admins = adminsRepository.findByUsername(username);
-        if(admins.getColor_role()){
+
             List<Color> colors = colorRepository.findAll();
             return ResponseEntity.ok(colors);
-        }
-        else return ResponseEntity.ok(new ArrayList<>());
 
     }
 
@@ -1014,13 +988,10 @@ else{
     @Override
     public ResponseEntity<List<Admins>> getAssignedRole(String username) {
         Admins admin = adminsRepository.findByUsername(username);
-        if(admin.getAdmin_role()){
+
             List<Admins> admins = adminsRepository.findAll();
             return ResponseEntity.ok(admins);
-        }
-        else {
-            return ResponseEntity.ok(new ArrayList<>());
-        }
+
 
     }
 
