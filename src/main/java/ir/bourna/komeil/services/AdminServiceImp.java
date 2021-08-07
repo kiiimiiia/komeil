@@ -75,7 +75,7 @@ public class AdminServiceImp implements AdminService {
             productItem.setImageUrl(addProductRequestDTO.getImageUrl());
             productItem.setNetPrice(addProductRequestDTO.getNetPrice());
             productItem.setDiscount(addProductRequestDTO.getDiscount());
-
+productItem.setRate(addProductRequestDTO.getRate());
             productItem.setCreatedAt(System.currentTimeMillis() / 1000);
             productItem.setUpdatedAt(System.currentTimeMillis() / 1000);
             productItem.setProductCategory(productCategory.get().getId());
@@ -147,6 +147,7 @@ public class AdminServiceImp implements AdminService {
             productItem.get().setDiscount(addProductRequestDTO.getDiscount());
             productItem.get().setUpdatedAt(System.currentTimeMillis() / 1000);
             productItem.get().setStock(addProductRequestDTO.getStock());
+            productItem.get().setRate(addProductRequestDTO.getRate());
             productItemRepository.save(productItem.get());
 
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();

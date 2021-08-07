@@ -17,6 +17,7 @@ public class AddProductRequestDTO {
     private Long categoryId;
     private String[] additinoalimage;
 private Long[] colorid;
+private Integer rate;
     public String getName() {
         return name;
     }
@@ -95,5 +96,13 @@ private Long[] colorid;
 
     public void setAdditinoalimage(String[] additinoalimage) {
         this.additinoalimage = additinoalimage;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
     }
 }
