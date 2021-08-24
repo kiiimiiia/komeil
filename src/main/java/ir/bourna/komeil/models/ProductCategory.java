@@ -15,6 +15,8 @@ public class ProductCategory {
     private String name;
     @Column(name = "enable")
     private boolean enable;
+    @Column(name = "imageUrl")
+    private String imageUrl;
 
 
     public ProductCategory() {
@@ -44,5 +46,13 @@ public class ProductCategory {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

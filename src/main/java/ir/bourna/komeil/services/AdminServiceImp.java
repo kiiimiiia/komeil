@@ -140,6 +140,20 @@ productItem.setRate(addProductRequestDTO.getRate());
                 return baseResponseDTO;
 
             }
+            if(addProductRequestDTO.getBrandId()!=0){
+                productItem.get().setBrandId(addProductRequestDTO.getBrandId());
+            }
+            if(addProductRequestDTO.getCategoryId()!=0){
+                productItem.get().setProductCategory(addProductRequestDTO.getCategoryId());
+            }
+            if(addProductRequestDTO.getColorid().length!=0){
+                Set<Color> colors=new HashSet<>();
+                for (int i = 0; i <addProductRequestDTO.getColorid().length ; i++) {
+                    Color color = colorRepository.findById(addProductRequestDTO.getColorid()[i]).get();
+                    colors.add(color);
+                }
+                productItem.get().setColors(colors);
+            }
             productItem.get().setName(addProductRequestDTO.getName());
             productItem.get().setDescription(addProductRequestDTO.getDescription());
             productItem.get().setImageUrl(addProductRequestDTO.getImageUrl());
@@ -263,6 +277,7 @@ productItem.setRate(addProductRequestDTO.getRate());
             ProductCategory productCategory = new ProductCategory();
             productCategory.setName(addCategoryRequestDTO.getName());
             productCategory.setEnable(true);
+            productCategory.setImageUrl(addCategoryRequestDTO.getImageUrl());
             productCategoryRepository.save(productCategory);
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
@@ -291,6 +306,7 @@ productItem.setRate(addProductRequestDTO.getRate());
 
             }
             productCategory.get().setName(addCategoryRequestDTO.getName());
+            productCategory.get().setImageUrl(addCategoryRequestDTO.getImageUrl());
             productCategoryRepository.save(productCategory.get());
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
