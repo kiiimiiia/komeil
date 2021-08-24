@@ -259,7 +259,7 @@ productItem.setRate(addProductRequestDTO.getRate());
                 productCategoryResponseDTOS.setId(productCategories.get(i).getId());
                 productCategoryResponseDTOS.setName(productCategories.get(i).getName());
                 productCategoryResponseDTOS.setEnable(productCategories.get(i).isEnable());
-
+                productCategoryResponseDTOS.setImageUrl(productCategories.get(i).getImageUrl());
 //            productCategoryResponseDTOS.setProductItemID(productItem.getId());
 //            productCategoryResponseDTOS.setBannersID(productCategories.get(i).getBanners().toArray());
                 productCategoryList.add(productCategoryResponseDTOS);

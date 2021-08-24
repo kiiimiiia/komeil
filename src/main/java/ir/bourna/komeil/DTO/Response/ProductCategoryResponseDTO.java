@@ -12,6 +12,7 @@ public class ProductCategoryResponseDTO {
     private Long id;
     private String name;
     private boolean enable;
+    private String imageUrl;
 //    private Long productItemID;
 //    private Object[]bannersID;
 
@@ -47,7 +48,13 @@ public class ProductCategoryResponseDTO {
         this.enable = enable;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 //    public Object[] getBannersID() {
 //        return bannersID;
 //    }
