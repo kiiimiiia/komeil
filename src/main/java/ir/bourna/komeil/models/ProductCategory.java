@@ -1,5 +1,9 @@
 package ir.bourna.komeil.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +21,8 @@ public class ProductCategory {
     private boolean enable;
     @Column(name = "imageUrl")
     private String imageUrl;
+    @Column(name = "parent_id")
+    private Integer parentCategoryId ;
 
 
     public ProductCategory() {
@@ -54,5 +60,13 @@ public class ProductCategory {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Integer getParentCategoryId() {
+        return parentCategoryId;
+    }
+
+    public void setParentCategoryId(Integer parentCategoryId) {
+        this.parentCategoryId = parentCategoryId;
     }
 }

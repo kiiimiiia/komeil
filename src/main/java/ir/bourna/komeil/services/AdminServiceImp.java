@@ -79,6 +79,13 @@ productItem.setRate(addProductRequestDTO.getRate());
             productItem.setCreatedAt(System.currentTimeMillis() / 1000);
             productItem.setUpdatedAt(System.currentTimeMillis() / 1000);
             productItem.setProductCategory(productCategory.get().getId());
+            productItem.setProductWidth(addProductRequestDTO.getProductWidth());
+            productItem.setProductHeight(addProductRequestDTO.getProductHeight());
+            productItem.setProductLength(addProductRequestDTO.getProductLength());
+            productItem.setBoxHeight(addProductRequestDTO.getBoxHeight());
+            productItem.setBoxLength(addProductRequestDTO.getBoxLength());
+            productItem.setHave(true);
+            productItem.setBoxWidth(addProductRequestDTO.getBoxWidth());
             try {
                 while (true){
                     String hash = hashConfig.CreateHash();
@@ -162,6 +169,13 @@ productItem.setRate(addProductRequestDTO.getRate());
             productItem.get().setUpdatedAt(System.currentTimeMillis() / 1000);
             productItem.get().setStock(addProductRequestDTO.getStock());
             productItem.get().setRate(addProductRequestDTO.getRate());
+            productItem.get().setProductWidth(addProductRequestDTO.getProductWidth());
+            productItem.get().setProductHeight(addProductRequestDTO.getProductHeight());
+            productItem.get().setProductLength(addProductRequestDTO.getProductLength());
+            productItem.get().setBoxHeight(addProductRequestDTO.getBoxHeight());
+            productItem.get().setHave(true);
+            productItem.get().setBoxLength(addProductRequestDTO.getBoxLength());
+            productItem.get().setBoxWidth(addProductRequestDTO.getBoxWidth());
             productItemRepository.save(productItem.get());
 
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
@@ -196,6 +210,14 @@ productItem.setRate(addProductRequestDTO.getRate());
                 productItemResponseDTO.setStock(productItems.get(i).getStock());
                 productItemResponseDTO.setImageUrl(productItems.get(i).getImageUrl());
                 productItemResponseDTO.setName(productItems.get(i).getName());
+                productItemResponseDTO.setProductHeight(productItems.get(i).getProductHeight());
+                productItemResponseDTO.setProductLength(productItems.get(i).getProductLength());
+                productItemResponseDTO.setProductWidth(productItems.get(i).getProductWidth());
+                productItemResponseDTO.setBoxHeight(productItems.get(i).getBoxHeight());
+                productItemResponseDTO.setBoxLength(productItems.get(i).getBoxLength());
+                productItemResponseDTO.setHave(productItems.get(i).getHave());
+                productItemResponseDTO.setBoxWidth(productItems.get(i).getBoxWidth());
+                System.out.println(productItems.get(i).getProductCategory());
                 Optional<ProductCategory> productCategory = productCategoryRepository.findById(productItems.get(i).getProductCategory());
                 productItemResponseDTO.setCategoryname(productCategory.get().getName());
                 Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());
@@ -260,6 +282,11 @@ productItem.setRate(addProductRequestDTO.getRate());
                 productCategoryResponseDTOS.setName(productCategories.get(i).getName());
                 productCategoryResponseDTOS.setEnable(productCategories.get(i).isEnable());
                 productCategoryResponseDTOS.setImageUrl(productCategories.get(i).getImageUrl());
+                if(productCategories.get(i).getParentCategoryId()!=0){
+                    ProductCategory productCategory =productCategoryRepository.findById(productCategories.get(i).getParentCategoryId().longValue()).get();
+                    productCategoryResponseDTOS.setParentName(productCategory.getName());
+                }
+
 //            productCategoryResponseDTOS.setProductItemID(productItem.getId());
 //            productCategoryResponseDTOS.setBannersID(productCategories.get(i).getBanners().toArray());
                 productCategoryList.add(productCategoryResponseDTOS);
@@ -276,6 +303,7 @@ productItem.setRate(addProductRequestDTO.getRate());
         if(admins.getCategory_role()){
             ProductCategory productCategory = new ProductCategory();
             productCategory.setName(addCategoryRequestDTO.getName());
+            productCategory.setParentCategoryId(addCategoryRequestDTO.getParentCategory());
             productCategory.setEnable(true);
             productCategory.setImageUrl(addCategoryRequestDTO.getImageUrl());
             productCategoryRepository.save(productCategory);
@@ -307,6 +335,7 @@ productItem.setRate(addProductRequestDTO.getRate());
             }
             productCategory.get().setName(addCategoryRequestDTO.getName());
             productCategory.get().setImageUrl(addCategoryRequestDTO.getImageUrl());
+            productCategory.get().setParentCategoryId(addCategoryRequestDTO.getParentCategory());
             productCategoryRepository.save(productCategory.get());
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
@@ -584,6 +613,7 @@ else{
             brand.setTitle(brandRequestDTO.getTitle());
             brand.setDescription(brandRequestDTO.getDescription());
             brand.setImageUrl(brandRequestDTO.getImageurl());
+            brand.setVip(brandRequestDTO.isVip());
             brandRepository.save(brand);
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
@@ -608,6 +638,7 @@ else{
                 Brand.get().setDescription(BrandRequestDTO.getDescription());
                 Brand.get().setImageUrl(BrandRequestDTO.getImageurl());
                 Brand.get().setTitle(BrandRequestDTO.getTitle());
+                Brand.get().setVip(BrandRequestDTO.isVip());
                 brandRepository.save(Brand.get());
                 BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
                 baseResponseDTO.setCode(200);
@@ -644,6 +675,7 @@ else{
                 brandResponseDTO.setImageUrl(brands.get(i).getImageUrl());
                 brandResponseDTO.setTitle(brands.get(i).getTitle());
                 brandResponseDTO.setEnable(brands.get(i).isEnable());
+                brandResponseDTO.setVip(brands.get(i).isVip());
                 brandResponseDTOS.add(brandResponseDTO);
             }
             return ResponseEntity.ok(brandResponseDTOS);
@@ -1267,5 +1299,26 @@ else{
         }
         else
             return ResponseEntity.ok(new ArrayList<>());
+    }
+
+    @Override
+    public BaseResponseDTO endofstock(Long id, String username) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getProduct_role()){
+            ProductItem productItem = productItemRepository.findById(id).get();
+            productItem.setHave(!productItem.getHave());
+            productItemRepository.save(productItem);
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("با موفقیت انجام شد");
+            return baseResponseDTO;
+        }
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }
+
     }
 }

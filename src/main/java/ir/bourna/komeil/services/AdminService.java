@@ -103,4 +103,6 @@ public interface AdminService {
     BaseResponseDTO postconfig(ConfigRequestDTO configRequestDTO, String username);
 
     ResponseEntity<List<Config>> getconfig(String username);
+
+    BaseResponseDTO endofstock(Long id, String username);
 }

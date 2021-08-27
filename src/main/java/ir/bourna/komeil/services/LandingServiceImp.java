@@ -77,7 +77,7 @@ public class LandingServiceImp implements LandingService{
 
     public  List<BrandResponseDTO> getAllBrands()
     {
-        List<Brand> brands = brandRepository.findAll();
+        List<Brand> brands = brandRepository.findAllByVip(true);
         List<BrandResponseDTO> brandResponseDTOS = new ArrayList<>();
         for(int i=0;i<brands.size();i++)
         {
@@ -87,6 +87,7 @@ public class LandingServiceImp implements LandingService{
                 brandResponseDTO.setDescription(brands.get(i).getDescription());
                 brandResponseDTO.setImageUrl(brands.get(i).getImageUrl());
                 brandResponseDTO.setTitle(brands.get(i).getTitle());
+                brandResponseDTO.setVip(brands.get(i).isVip());
                 brandResponseDTOS.add(brandResponseDTO);
             }
 
@@ -123,6 +124,7 @@ public class LandingServiceImp implements LandingService{
                     Optional<Brand> brand = brandRepository.findById(productItem.get().getBrandId());
                     productItemResponseDTO.setBrandname(brand.get().getTitle());
                     productItemResponseDTO.setEnable(productItem.get().getEnable());
+                    productItemResponseDTO.setHave(productItem.get().getHave());
                     productItemResponseDTOS.add(productItemResponseDTO);
                 }
 
@@ -157,6 +159,8 @@ public class LandingServiceImp implements LandingService{
                 Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());
                 productItemResponseDTO.setBrandname(brand.get().getTitle());
                 productItemResponseDTO.setEnable(productItems.get(i).getEnable());
+                productItemResponseDTO.setHave(productItems.get(i).getHave());
+
                 productItemResponseDTOS.add(productItemResponseDTO);
 
 
@@ -178,11 +182,20 @@ public class LandingServiceImp implements LandingService{
             productItemResponseDTO.setHash(productItems.getHashproduct());
             productItemResponseDTO.setImageUrl(productItems.getImageUrl());
             productItemResponseDTO.setName(productItems.getName());
+            productItemResponseDTO.setProductWidth(productItems.getProductWidth());
+            productItemResponseDTO.setProductLength(productItems.getProductLength());
+            productItemResponseDTO.setProductHeight(productItems.getProductHeight());
+            productItemResponseDTO.setBoxWidth(productItems.getBoxWidth());
+            productItemResponseDTO.setBoxLength(productItems.getBoxLength());
+            productItemResponseDTO.setBoxHeight(productItems.getBoxHeight());
             Set<Color> colors= productItems.getColors();
             List<Color> listcolor=new ArrayList<>();
             for (Iterator<Color> it = colors.iterator(); it.hasNext(); ) {
                 Color f = it.next();
-              listcolor.add(f);
+                if(f.isEnable()){
+                    listcolor.add(f);
+                }
+
             }
 productItemResponseDTO.setColorsList(listcolor);
             productItemResponseDTO.setProductAdditionalImages(productItems.getProductAdditionalImages());
@@ -191,7 +204,7 @@ productItemResponseDTO.setColorsList(listcolor);
             Optional<Brand> brand = brandRepository.findById(productItems.getBrandId());
             productItemResponseDTO.setBrandname(brand.get().getTitle());
             productItemResponseDTO.setEnable(productItems.getEnable());
-
+productItemResponseDTO.setHave(productItems.getHave());
         }
         return  ResponseEntity.ok(productItemResponseDTO);
     }
@@ -219,6 +232,7 @@ productItemResponseDTO.setColorsList(listcolor);
                 Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());
                 productItemResponseDTO.setBrandname(brand.get().getTitle());
                 productItemResponseDTO.setEnable(productItems.get(i).getEnable());
+                productItemResponseDTO.setHave(productItems.get(i).getHave());
                 productItemResponseDTOS.add(productItemResponseDTO);
             }
 
@@ -301,6 +315,7 @@ productItemResponseDTO.setColorsList(listcolor);
                 Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());
                 productItemResponseDTO.setBrandname(brand.get().getTitle());
                 productItemResponseDTO.setEnable(productItems.get(i).getEnable());
+                productItemResponseDTO.setHave(productItems.get(i).getHave());
                 productItemResponseDTOS.add(productItemResponseDTO);
 
         }

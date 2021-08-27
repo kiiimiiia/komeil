@@ -9,6 +9,7 @@ public class BrandResponseDTO {
     private String description;
     private Long productItemID;
 private boolean enable;
+private boolean vip;
     public Long getId() {
         return id;
     }
@@ -55,5 +56,13 @@ private boolean enable;
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
     }
 }

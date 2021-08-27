@@ -29,6 +29,27 @@ public class ProductItem extends AuditModel{
         @Column(name = "hashproduct")
         private String hashproduct;
 
+        @Column(name = "product_width")
+        private String productWidth;
+
+        @Column(name = "product_length")
+        private String productLength;
+
+        @Column(name = "product_height")
+        private String productHeight;
+
+        @Column(name = "box_width")
+        private String boxWidth;
+
+        @Column(name = "box_length")
+        private String boxLength;
+
+        @Column(name = "box_height")
+        private String boxHeight;
+
+        @Column(name = "have")
+        private Boolean have;
+
         @Column(name = "stock")
         private Long stock;
         @Column(name = "rate")
@@ -195,5 +216,61 @@ public class ProductItem extends AuditModel{
 
         public void setHashproduct(String hashproduct) {
                 this.hashproduct = hashproduct;
+        }
+
+        public String getProductWidth() {
+                return productWidth;
+        }
+
+        public void setProductWidth(String productWidth) {
+                this.productWidth = productWidth;
+        }
+
+        public String getProductLength() {
+                return productLength;
+        }
+
+        public void setProductLength(String productLength) {
+                this.productLength = productLength;
+        }
+
+        public String getProductHeight() {
+                return productHeight;
+        }
+
+        public void setProductHeight(String productHeight) {
+                this.productHeight = productHeight;
+        }
+
+        public String getBoxWidth() {
+                return boxWidth;
+        }
+
+        public void setBoxWidth(String boxWidth) {
+                this.boxWidth = boxWidth;
+        }
+
+        public String getBoxLength() {
+                return boxLength;
+        }
+
+        public void setBoxLength(String boxLength) {
+                this.boxLength = boxLength;
+        }
+
+        public String getBoxHeight() {
+                return boxHeight;
+        }
+
+        public void setBoxHeight(String boxHeight) {
+                this.boxHeight = boxHeight;
+        }
+
+        public Boolean getHave() {
+                return have;
+        }
+
+        public void setHave(Boolean have) {
+                this.have = have;
         }
 }

@@ -5,6 +5,7 @@ public class AddCategoryRequestDTO {
 
     private String name;
     private String imageUrl;
+    private Integer parentCategory;
     public String getName() {
         return name;
     }
@@ -19,5 +20,13 @@ public class AddCategoryRequestDTO {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Integer getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(Integer parentCategory) {
+        this.parentCategory = parentCategory;
     }
 }

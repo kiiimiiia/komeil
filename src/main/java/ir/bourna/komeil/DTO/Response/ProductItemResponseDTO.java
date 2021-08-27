@@ -28,8 +28,14 @@ private String brandname;
     private Set<Long> orderListProductItemNumberSet;
 private List<Color> colorsList;
     private Boolean enable;
-
+    private String productWidth;
+    private String productLength;
+    private String productHeight;
+    private String boxWidth;
+    private String boxLength;
+    private String boxHeight;
     private AmazingOffer amazingOffer;
+    private boolean have;
 
     public Long getId() {
         return id;
@@ -181,5 +187,61 @@ private List<Color> colorsList;
 
     public void setColorsList(List<Color> colorsList) {
         this.colorsList = colorsList;
+    }
+
+    public String getProductWidth() {
+        return productWidth;
+    }
+
+    public void setProductWidth(String productWidth) {
+        this.productWidth = productWidth;
+    }
+
+    public String getProductLength() {
+        return productLength;
+    }
+
+    public void setProductLength(String productLength) {
+        this.productLength = productLength;
+    }
+
+    public String getProductHeight() {
+        return productHeight;
+    }
+
+    public void setProductHeight(String productHeight) {
+        this.productHeight = productHeight;
+    }
+
+    public String getBoxWidth() {
+        return boxWidth;
+    }
+
+    public void setBoxWidth(String boxWidth) {
+        this.boxWidth = boxWidth;
+    }
+
+    public String getBoxLength() {
+        return boxLength;
+    }
+
+    public void setBoxLength(String boxLength) {
+        this.boxLength = boxLength;
+    }
+
+    public String getBoxHeight() {
+        return boxHeight;
+    }
+
+    public void setBoxHeight(String boxHeight) {
+        this.boxHeight = boxHeight;
+    }
+
+    public boolean isHave() {
+        return have;
+    }
+
+    public void setHave(boolean have) {
+        this.have = have;
     }
 }

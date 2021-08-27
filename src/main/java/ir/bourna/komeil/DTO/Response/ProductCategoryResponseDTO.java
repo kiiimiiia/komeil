@@ -13,6 +13,7 @@ public class ProductCategoryResponseDTO {
     private String name;
     private boolean enable;
     private String imageUrl;
+    private String parentName;
 //    private Long productItemID;
 //    private Object[]bannersID;
 
@@ -64,4 +65,11 @@ public class ProductCategoryResponseDTO {
 //    }
 
 
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
 }

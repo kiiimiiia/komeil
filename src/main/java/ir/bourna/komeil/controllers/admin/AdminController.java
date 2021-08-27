@@ -44,6 +44,10 @@ public class AdminController {
         return adminService.changestateproduct(id,username);
     }
 
+    @PutMapping("/endofstock")
+    private BaseResponseDTO endofstock(@RequestParam Long id,@RequestParam String username) {
+        return adminService.endofstock(id,username);
+    }
     //--------CATEGORY CRUD----------
 
     @PostMapping("/category")

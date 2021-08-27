@@ -4,6 +4,7 @@ public class BrandRequestDTO {
     private String title;
     private String description;
     private String imageurl;
+    private boolean vip;
 
     public String getTitle() {
         return title;
@@ -28,5 +29,13 @@ public class BrandRequestDTO {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
     }
 }

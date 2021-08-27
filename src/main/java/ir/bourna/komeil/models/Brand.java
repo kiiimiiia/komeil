@@ -15,7 +15,8 @@ public class Brand {
     private String imageUrl;
     @Column(name = "description")
     private String description;
-
+@Column(name="vip")
+private boolean vip;
     @Column(name = "enable")
     private boolean enable;
     public Brand() {
@@ -61,5 +62,13 @@ public class Brand {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
     }
 }

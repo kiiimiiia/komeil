@@ -3,6 +3,7 @@ package ir.bourna.komeil.DTO.Request;
 
 import ir.bourna.komeil.models.Brand;
 
+import javax.persistence.Column;
 import java.util.List;
 
 public class AddProductRequestDTO {
@@ -18,6 +19,14 @@ public class AddProductRequestDTO {
     private String[] additinoalimage;
 private Long[] colorid;
 private Integer rate;
+    private String productWidth;
+    private String productLength;
+    private String productHeight;
+    private String boxWidth;
+    private String boxLength;
+    private String boxHeight;
+    private boolean have;
+
     public String getName() {
         return name;
     }
@@ -104,5 +113,61 @@ private Integer rate;
 
     public void setRate(Integer rate) {
         this.rate = rate;
+    }
+
+    public String getProductWidth() {
+        return productWidth;
+    }
+
+    public void setProductWidth(String productWidth) {
+        this.productWidth = productWidth;
+    }
+
+    public String getProductLength() {
+        return productLength;
+    }
+
+    public void setProductLength(String productLength) {
+        this.productLength = productLength;
+    }
+
+    public String getProductHeight() {
+        return productHeight;
+    }
+
+    public void setProductHeight(String productHeight) {
+        this.productHeight = productHeight;
+    }
+
+    public String getBoxWidth() {
+        return boxWidth;
+    }
+
+    public void setBoxWidth(String boxWidth) {
+        this.boxWidth = boxWidth;
+    }
+
+    public String getBoxLength() {
+        return boxLength;
+    }
+
+    public void setBoxLength(String boxLength) {
+        this.boxLength = boxLength;
+    }
+
+    public String getBoxHeight() {
+        return boxHeight;
+    }
+
+    public void setBoxHeight(String boxHeight) {
+        this.boxHeight = boxHeight;
+    }
+
+    public boolean isHave() {
+        return have;
+    }
+
+    public void setHave(boolean have) {
+        this.have = have;
     }
 }
