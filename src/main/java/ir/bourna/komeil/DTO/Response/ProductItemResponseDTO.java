@@ -14,7 +14,7 @@ public class ProductItemResponseDTO {
     private String name;
     private String description;
     private String imageUrl;
-    private Double netPrice;
+    private String netPrice;
     private Integer discount;
     private Long stock;
     private Integer rate;
@@ -69,11 +69,11 @@ private List<Color> colorsList;
         this.imageUrl = imageUrl;
     }
 
-    public Double getNetPrice() {
+    public String getNetPrice() {
         return netPrice;
     }
 
-    public void setNetPrice(Double netPrice) {
+    public void setNetPrice(String netPrice) {
         this.netPrice = netPrice;
     }
 

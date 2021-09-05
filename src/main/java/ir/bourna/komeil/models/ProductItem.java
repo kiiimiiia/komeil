@@ -23,7 +23,7 @@ public class ProductItem extends AuditModel{
         private String imageUrl;
 
         @Column(name = "net_price")
-        private Double netPrice;
+        private String netPrice;
         @Column(name = "discount")
         private Integer discount;
         @Column(name = "hashproduct")
@@ -128,11 +128,11 @@ public class ProductItem extends AuditModel{
                 this.imageUrl = imageUrl;
         }
 
-        public Double getNetPrice() {
+        public String getNetPrice() {
                 return netPrice;
         }
 
-        public void setNetPrice(Double netPrice) {
+        public void setNetPrice(String netPrice) {
                 this.netPrice = netPrice;
         }
 

@@ -150,8 +150,14 @@ productItem.setRate(addProductRequestDTO.getRate());
             if(addProductRequestDTO.getBrandId()!=0){
                 productItem.get().setBrandId(addProductRequestDTO.getBrandId());
             }
+            else{
+                productItem.get().setBrandId(productItem.get().getBrandId());
+            }
             if(addProductRequestDTO.getCategoryId()!=0){
                 productItem.get().setProductCategory(addProductRequestDTO.getCategoryId());
+            }
+            else{
+                productItem.get().setProductCategory(productItem.get().getProductCategory());
             }
             if(addProductRequestDTO.getColorid().length!=0){
                 Set<Color> colors=new HashSet<>();
@@ -177,7 +183,16 @@ productItem.setRate(addProductRequestDTO.getRate());
             productItem.get().setBoxLength(addProductRequestDTO.getBoxLength());
             productItem.get().setBoxWidth(addProductRequestDTO.getBoxWidth());
             productItemRepository.save(productItem.get());
-
+            Set<ProductAdditionalImage>productAdditionalImages = new HashSet<>();
+            for (String additionalImage : addProductRequestDTO.getAdditinoalimage()){
+                ProductAdditionalImage productAdditionalImage = new ProductAdditionalImage();
+                productAdditionalImage.setImageUrl(additionalImage);
+                productAdditionalImage.setProductItem(productItem.get());
+                productAdditionalImages.add(productAdditionalImage);
+                productAdditionalImageRepository.save(productAdditionalImage);
+            }
+            productItem.get().setProductAdditionalImages(productAdditionalImages);
+            productItemRepository.save(productItem.get());
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
             baseResponseDTO.setMessage("محصول مورد نظر تغییر یافت");

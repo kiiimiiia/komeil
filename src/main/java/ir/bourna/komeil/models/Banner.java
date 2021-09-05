@@ -64,7 +64,8 @@ public class Banner extends AuditModel {
         this.category = category;
     }
 public enum BannerType {
-        firstbanner_landing,
+        firstbanner_landing_first,
+    firstbanner_landing_second,
     secondbanner_landing,
     thirdbanner_landing,
     fourthbanner_landing,
