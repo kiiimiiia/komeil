@@ -11,7 +11,7 @@ public class AddProductRequestDTO {
     private String name;
     private String description;
     private String imageUrl;
-    private String netPrice;
+    private Integer netPrice;
     private Integer discount;
     private Long stock;
     private Long brandId;
@@ -25,6 +25,7 @@ private Integer rate;
     private String boxWidth;
     private String boxLength;
     private String boxHeight;
+    private String weight;
     private boolean have;
 
     public String getName() {
@@ -51,12 +52,20 @@ private Integer rate;
         this.imageUrl = imageUrl;
     }
 
-    public String getNetPrice() {
+    public Integer getNetPrice() {
         return netPrice;
     }
 
-    public void setNetPrice(String netPrice) {
+    public void setNetPrice(Integer netPrice) {
         this.netPrice = netPrice;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public Integer getDiscount() {

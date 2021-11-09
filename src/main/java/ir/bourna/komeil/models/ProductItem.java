@@ -23,7 +23,7 @@ public class ProductItem extends AuditModel{
         private String imageUrl;
 
         @Column(name = "net_price")
-        private String netPrice;
+        private Integer netPrice;
         @Column(name = "discount")
         private Integer discount;
         @Column(name = "hashproduct")
@@ -46,6 +46,9 @@ public class ProductItem extends AuditModel{
 
         @Column(name = "box_height")
         private String boxHeight;
+
+        @Column(name = "weight")
+        private String weight;
 
         @Column(name = "have")
         private Boolean have;
@@ -128,11 +131,11 @@ public class ProductItem extends AuditModel{
                 this.imageUrl = imageUrl;
         }
 
-        public String getNetPrice() {
+        public Integer getNetPrice() {
                 return netPrice;
         }
 
-        public void setNetPrice(String netPrice) {
+        public void setNetPrice(Integer netPrice) {
                 this.netPrice = netPrice;
         }
 
@@ -272,5 +275,13 @@ public class ProductItem extends AuditModel{
 
         public void setHave(Boolean have) {
                 this.have = have;
+        }
+
+        public String getWeight() {
+                return weight;
+        }
+
+        public void setWeight(String weight) {
+                this.weight = weight;
         }
 }

@@ -187,6 +187,7 @@ public class LandingServiceImp implements LandingService{
             productItemResponseDTO.setProductHeight(productItems.getProductHeight());
             productItemResponseDTO.setBoxWidth(productItems.getBoxWidth());
             productItemResponseDTO.setBoxLength(productItems.getBoxLength());
+            productItemResponseDTO.setWeight(productItems.getWeight());
             productItemResponseDTO.setBoxHeight(productItems.getBoxHeight());
             Set<Color> colors= productItems.getColors();
             List<Color> listcolor=new ArrayList<>();

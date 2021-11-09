@@ -14,7 +14,7 @@ public class ProductItemResponseDTO {
     private String name;
     private String description;
     private String imageUrl;
-    private String netPrice;
+    private Integer netPrice;
     private Integer discount;
     private Long stock;
     private Integer rate;
@@ -36,7 +36,7 @@ private List<Color> colorsList;
     private String boxHeight;
     private AmazingOffer amazingOffer;
     private boolean have;
-
+    private String weight;
     public Long getId() {
         return id;
     }
@@ -69,12 +69,20 @@ private List<Color> colorsList;
         this.imageUrl = imageUrl;
     }
 
-    public String getNetPrice() {
+    public Integer getNetPrice() {
         return netPrice;
     }
 
-    public void setNetPrice(String netPrice) {
+    public void setNetPrice(Integer netPrice) {
         this.netPrice = netPrice;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public Integer getDiscount() {
