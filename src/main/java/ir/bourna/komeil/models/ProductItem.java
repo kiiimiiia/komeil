@@ -3,6 +3,7 @@ package ir.bourna.komeil.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
+import ir.bourna.komeil.models.intermediate.ProductitemColor;
 
 import javax.persistence.*;
 import java.util.*;
@@ -59,17 +60,9 @@ public class ProductItem extends AuditModel{
         private Integer rate;
         @Column(name = "brand_id")
         private Long brandId;
-        @ManyToMany(fetch = FetchType.LAZY,
-                cascade = {
-                        CascadeType.PERSIST,
-                        CascadeType.MERGE
-                })
         @JsonIgnore
-        @JoinTable(name = "product_item_color",
-                joinColumns = { @JoinColumn(name = "product_item_id") },
-                inverseJoinColumns = { @JoinColumn(name = "color_id") })
-
-        private Set<Color> colors = new HashSet<>();
+        @OneToMany(mappedBy = "productItem")
+        private Set<ProductitemColor> productitemColors = new HashSet<>();
 
 
 
@@ -189,12 +182,12 @@ public class ProductItem extends AuditModel{
                 this.enable = enable;
         }
 
-        public Set<Color> getColors() {
-                return colors;
+        public Set<ProductitemColor> getProductitemColors() {
+                return productitemColors;
         }
 
-        public void setColors(Set<Color> colors) {
-                this.colors = colors;
+        public void setProductitemColors(Set<ProductitemColor> productitemColors) {
+                this.productitemColors = productitemColors;
         }
 
         public Set<OrderListProductItemNumber> getOrderListProductItemNumberSet() {

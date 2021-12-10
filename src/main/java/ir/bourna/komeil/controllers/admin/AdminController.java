@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import ir.bourna.komeil.DTO.Request.*;
 import ir.bourna.komeil.DTO.Response.*;
 import ir.bourna.komeil.models.*;
+import ir.bourna.komeil.models.intermediate.ProductitemColor;
 import ir.bourna.komeil.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -281,6 +282,22 @@ public class AdminController {
 
         return adminService.getconfig(username);
     }
-
+    //--------color CRUD----------
+    @PostMapping("/Productitemcolor")
+    private BaseResponseDTO postproductitemcolor(@RequestBody ProductitemColorRequestDTO productitemColorRequestDTO, @RequestParam String username) {
+        return adminService.postproductitemcolor(productitemColorRequestDTO,username);
+    }
+    @PutMapping("/Productitemcolor")
+    private BaseResponseDTO putproductitemcolor(@RequestBody ProductitemColorRequestDTO productitemColorRequestDTO, @RequestParam String username,@RequestParam Long id) {
+        return adminService.putproductitemcolor(productitemColorRequestDTO,username,id);
+    }
+    @PutMapping("/changestateProductitemcolor")
+    private BaseResponseDTO changestateProductitemcolor(@RequestParam Long id, @RequestParam String username) {
+        return adminService.changestateProductitemcolor(id,username);
+    }
+    @GetMapping("/Productitemcolor")
+    private List<ProductitemColor> getProductitemcolor(@RequestParam String username) {
+        return adminService.getProductitemcolor(username);
+    }
 
 }

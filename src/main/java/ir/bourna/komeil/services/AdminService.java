@@ -3,6 +3,7 @@ package ir.bourna.komeil.services;
 import ir.bourna.komeil.DTO.Request.*;
 import ir.bourna.komeil.DTO.Response.*;
 import ir.bourna.komeil.models.*;
+import ir.bourna.komeil.models.intermediate.ProductitemColor;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -105,4 +106,12 @@ public interface AdminService {
     ResponseEntity<List<Config>> getconfig(String username);
 
     BaseResponseDTO endofstock(Long id, String username);
+
+    BaseResponseDTO postproductitemcolor(ProductitemColorRequestDTO productitemColorRequestDTO, String username);
+
+    BaseResponseDTO putproductitemcolor(ProductitemColorRequestDTO productitemColorRequestDTO, String username, Long id);
+
+    BaseResponseDTO changestateProductitemcolor(Long id, String username);
+
+    List<ProductitemColor> getProductitemcolor(String username);
 }

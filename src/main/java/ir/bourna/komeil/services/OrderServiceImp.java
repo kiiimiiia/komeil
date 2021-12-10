@@ -44,8 +44,8 @@ public class OrderServiceImp implements OrderService {
         if (!productItem.isPresent())
             return null;
         Optional<Color> color = colorRepository.findById(request.getColorId());
-        if (!productItem.get().getColors().contains(color.get()))
-            return null;
+//        if (!productItem.get().getColors().contains(color.get()))
+//            return null;
         OrderList orderList = orderListRepository.findAllByOrderListStatusAndUser(OrderListStatus.NOT_PAID , user);
         if (orderList == null){
             orderList = new OrderList();

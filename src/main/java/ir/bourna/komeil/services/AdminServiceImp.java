@@ -8,6 +8,7 @@ import ir.bourna.komeil.models.*;
 import ir.bourna.komeil.models.Enums.OrderListStatus;
 import ir.bourna.komeil.models.Enums.TicketStatus;
 import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
+import ir.bourna.komeil.models.intermediate.ProductitemColor;
 import ir.bourna.komeil.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,8 @@ public class AdminServiceImp implements AdminService {
     ProductAdditionalImageRepository productAdditionalImageRepository;
     @Autowired
     SubFilterRepository subFilterRepository;
-
+    @Autowired
+    ProductitemColorRepository productitemColorRepository;
     //--------PRODUCT CRUD----------
     @Override
     public BaseResponseDTO addProduct(AddProductRequestDTO addProductRequestDTO,String username) {
@@ -64,12 +66,12 @@ public class AdminServiceImp implements AdminService {
             Optional<Brand> brand = brandRepository.findById((long) addProductRequestDTO.getBrandId());
             Optional<ProductCategory> productCategory = productCategoryRepository.findById((long) addProductRequestDTO.getCategoryId());
             ProductItem productItem = new ProductItem();
-            Set<Color> colors=new HashSet<>();
-            for (int i = 0; i <addProductRequestDTO.getColorid().length ; i++) {
-                Color color = colorRepository.findById(addProductRequestDTO.getColorid()[i]).get();
-                colors.add(color);
-            }
-            productItem.setColors(colors);
+//            Set<Color> colors=new HashSet<>();
+//            for (int i = 0; i <addProductRequestDTO.getColorid().length ; i++) {
+//                Color color = colorRepository.findById(addProductRequestDTO.getColorid()[i]).get();
+//                colors.add(color);
+//            }
+//            productItem.setColors(colors);
             productItem.setName(addProductRequestDTO.getName());
             productItem.setDescription(addProductRequestDTO.getDescription());
             productItem.setImageUrl(addProductRequestDTO.getImageUrl());
@@ -113,6 +115,7 @@ public class AdminServiceImp implements AdminService {
                 ProductAdditionalImage productAdditionalImage = new ProductAdditionalImage();
                 productAdditionalImage.setImageUrl(additionalImage);
                 productAdditionalImage.setProductItem(productItem);
+                productAdditionalImage.setCreatedAt(System.currentTimeMillis() / 1000);
                 productAdditionalImages.add(productAdditionalImage);
                 productAdditionalImageRepository.save(productAdditionalImage);
             }
@@ -160,14 +163,14 @@ public class AdminServiceImp implements AdminService {
             else{
                 productItem.get().setProductCategory(productItem.get().getProductCategory());
             }
-            if(addProductRequestDTO.getColorid().length!=0){
-                Set<Color> colors=new HashSet<>();
-                for (int i = 0; i <addProductRequestDTO.getColorid().length ; i++) {
-                    Color color = colorRepository.findById(addProductRequestDTO.getColorid()[i]).get();
-                    colors.add(color);
-                }
-                productItem.get().setColors(colors);
-            }
+//            if(addProductRequestDTO.getColorid().length!=0){
+//                Set<Color> colors=new HashSet<>();
+//                for (int i = 0; i <addProductRequestDTO.getColorid().length ; i++) {
+//                    Color color = colorRepository.findById(addProductRequestDTO.getColorid()[i]).get();
+//                    colors.add(color);
+//                }
+//                productItem.get().setColors(colors);
+//            }
             productItem.get().setName(addProductRequestDTO.getName());
             productItem.get().setDescription(addProductRequestDTO.getDescription());
             productItem.get().setImageUrl(addProductRequestDTO.getImageUrl());
@@ -1338,5 +1341,91 @@ else{
             return baseResponseDTO;
         }
 
+    }
+    @Override
+    public BaseResponseDTO postproductitemcolor(ProductitemColorRequestDTO productitemColorAndColorBodyAndAngleRequestDTO, String username) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getColor_role()){
+            ProductItem productItem = productItemRepository.findById(productitemColorAndColorBodyAndAngleRequestDTO.getProductid()).get();
+
+            Color color = colorRepository.findById(productitemColorAndColorBodyAndAngleRequestDTO.getId()).get();
+            ProductitemColor productitemColor = new ProductitemColor();
+            productitemColor.setColor(color);
+            productitemColor.setProductItem(productItem);
+            productitemColor.setEnable(true);
+            productitemColor.setNumber(productitemColorAndColorBodyAndAngleRequestDTO.getNum());
+            productitemColorRepository.save(productitemColor);
+
+
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("ثبت شد");
+            return baseResponseDTO;
+        }
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }
+
+    }
+
+    @Override
+    public BaseResponseDTO putproductitemcolor(ProductitemColorRequestDTO productitemColorAndColorBodyAndAngleRequestDTO, String username,Long id) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getColor_role()){
+            ProductItem productItem = productItemRepository.findById(productitemColorAndColorBodyAndAngleRequestDTO.getProductid()).get();
+
+            Color color = colorRepository.findById(productitemColorAndColorBodyAndAngleRequestDTO.getId()).get();
+            ProductitemColor productitemColor = productitemColorRepository.findById(id).get();
+            productitemColor.setColor(color);
+            productitemColor.setProductItem(productItem);
+            productitemColor.setEnable(true);
+            productitemColor.setNumber(productitemColorAndColorBodyAndAngleRequestDTO.getNum());
+            productitemColorRepository.save(productitemColor);
+
+
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("ثبت شد");
+            return baseResponseDTO;
+        }
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }
+    }
+
+    @Override
+    public BaseResponseDTO changestateProductitemcolor(Long id, String username) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getColor_role()){
+            ProductitemColor productitemColor = productitemColorRepository.findById(id).get();
+
+            productitemColor.setEnable(!productitemColor.getEnable());
+
+            productitemColorRepository.save(productitemColor);
+
+
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("ثبت شد");
+            return baseResponseDTO;
+        }
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }
+    }
+
+    @Override
+    public List<ProductitemColor> getProductitemcolor(String username) {
+        List<ProductitemColor>productitemColors = productitemColorRepository.findAll();
+        return productitemColors;
     }
 }

@@ -15,7 +15,8 @@ public class ProductAdditionalImage {
     private Long id;
     @Column(name = "image_url")
     private String imageUrl;
-
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Long createdAt;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_item_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -47,5 +48,13 @@ public class ProductAdditionalImage {
 
     public void setProductItem(ProductItem productItem) {
         this.productItem = productItem;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 }

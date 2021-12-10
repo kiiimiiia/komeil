@@ -6,6 +6,7 @@ import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.BannerResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.SearchDropDownResponse;
 import ir.bourna.komeil.models.*;
+import ir.bourna.komeil.models.intermediate.ProductitemColor;
 import ir.bourna.komeil.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -189,13 +190,13 @@ public class LandingServiceImp implements LandingService{
             productItemResponseDTO.setBoxLength(productItems.getBoxLength());
             productItemResponseDTO.setWeight(productItems.getWeight());
             productItemResponseDTO.setBoxHeight(productItems.getBoxHeight());
-            Set<Color> colors= productItems.getColors();
+            Set<ProductitemColor> colors= productItems.getProductitemColors();
             List<Color> listcolor=new ArrayList<>();
-            for (Iterator<Color> it = colors.iterator(); it.hasNext(); ) {
-                Color f = it.next();
-                if(f.isEnable()){
-                    listcolor.add(f);
-                }
+            for (Iterator<ProductitemColor> it = colors.iterator(); it.hasNext(); ) {
+                ProductitemColor f = it.next();
+
+                    listcolor.add(f.getColor());
+
 
             }
 productItemResponseDTO.setColorsList(listcolor);

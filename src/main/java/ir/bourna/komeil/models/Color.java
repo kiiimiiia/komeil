@@ -2,6 +2,7 @@ package ir.bourna.komeil.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
+import ir.bourna.komeil.models.intermediate.ProductitemColor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -23,13 +24,8 @@ public class Color {
     @Column(name = "enable")
     private boolean enable;
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "colors")
-    private Set<ProductItem> productItemSet = new HashSet<>();
+    @OneToMany(mappedBy = "color")
+    private Set<ProductitemColor> productitemColors = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "color")
     private Set<OrderListProductItemNumber> orderListProductItemNumberSet = new HashSet<>();
@@ -53,12 +49,12 @@ public class Color {
         this.name = name;
     }
 
-    public Set<ProductItem> getProductItemSet() {
-        return productItemSet;
+    public Set<ProductitemColor> getProductitemColors() {
+        return productitemColors;
     }
 
-    public void setProductItemSet(Set<ProductItem> productItemSet) {
-        this.productItemSet = productItemSet;
+    public void setProductitemColors(Set<ProductitemColor> productitemColors) {
+        this.productitemColors = productitemColors;
     }
 
     public String getHex() {
