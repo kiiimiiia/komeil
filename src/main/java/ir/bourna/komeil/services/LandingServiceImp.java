@@ -194,8 +194,10 @@ public class LandingServiceImp implements LandingService{
             List<Color> listcolor=new ArrayList<>();
             for (Iterator<ProductitemColor> it = colors.iterator(); it.hasNext(); ) {
                 ProductitemColor f = it.next();
+if(f.getEnable()){
+    listcolor.add(f.getColor());
 
-                    listcolor.add(f.getColor());
+}
 
 
             }
