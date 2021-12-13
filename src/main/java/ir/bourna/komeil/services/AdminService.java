@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface AdminService {
-    BaseResponseDTO addProduct(AddProductRequestDTO addProductRequestDTO,String username);
+    ProductItem addProduct(AddProductRequestDTO addProductRequestDTO,String username);
 
     BaseResponseDTO editProduct(Long Id, AddProductRequestDTO addProductRequestDTO,String username);
 

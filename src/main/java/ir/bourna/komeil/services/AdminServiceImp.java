@@ -60,7 +60,7 @@ public class AdminServiceImp implements AdminService {
     ProductitemColorRepository productitemColorRepository;
     //--------PRODUCT CRUD----------
     @Override
-    public BaseResponseDTO addProduct(AddProductRequestDTO addProductRequestDTO,String username) {
+    public ProductItem addProduct(AddProductRequestDTO addProductRequestDTO,String username) {
         Admins admins = adminsRepository.findByUsername(username);
         if(admins.getProduct_role()){
             Optional<Brand> brand = brandRepository.findById((long) addProductRequestDTO.getBrandId());
@@ -120,17 +120,17 @@ public class AdminServiceImp implements AdminService {
                 productAdditionalImageRepository.save(productAdditionalImage);
             }
             productItem.setProductAdditionalImages(productAdditionalImages);
-            productItemRepository.save(productItem);
+            ProductItem p=  productItemRepository.save(productItem);
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
             baseResponseDTO.setMessage("محصول مورد نظر ثبت شد");
-            return baseResponseDTO;
+            return p;
         }
         else{
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(403);
             baseResponseDTO.setMessage("اجازه ندارید");
-            return baseResponseDTO;
+            return null;
         }
 
 

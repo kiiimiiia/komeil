@@ -26,7 +26,7 @@ public class AdminController {
     //--------PRODUCT CRUD----------
 
     @PostMapping("/product")
-    private BaseResponseDTO addProduct(@RequestBody AddProductRequestDTO addProductRequestDTO,@RequestParam String username) {
+    private ProductItem addProduct(@RequestBody AddProductRequestDTO addProductRequestDTO,@RequestParam String username) {
         return adminService.addProduct(addProductRequestDTO,username);
     }
 
