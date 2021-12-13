@@ -193,6 +193,7 @@ public class AdminServiceImp implements AdminService {
                 ProductAdditionalImage productAdditionalImage = new ProductAdditionalImage();
                 productAdditionalImage.setImageUrl(additionalImage);
                 productAdditionalImage.setProductItem(productItem.get());
+                productAdditionalImage.setCreatedAt(System.currentTimeMillis() / 1000);
                 productAdditionalImages.add(productAdditionalImage);
                 productAdditionalImageRepository.save(productAdditionalImage);
             }
