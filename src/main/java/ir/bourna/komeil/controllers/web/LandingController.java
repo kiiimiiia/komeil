@@ -62,6 +62,10 @@ public class LandingController {
     public ResponseEntity<ProductItemResponseDTO> detailproducts(@RequestParam("hash") String hash){
         return landingService.getDetailProductItems(hash);
     }
+    @RequestMapping(value = "/related", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductItemResponseDTO>> relatedproducts(@RequestParam("hash") String hash){
+        return landingService.relatedproduct(hash);
+    }
     @RequestMapping(value = "/listproductwithcategory", method = RequestMethod.GET)
     public ResponseEntity<List<ProductItemResponseDTO>> listproductwithcategory(@RequestParam("categoryid") String id){
         return landingService.listproductwithcategory(id);

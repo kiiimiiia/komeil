@@ -31,4 +31,6 @@ public interface LandingService {
     ResponseEntity<List<SearchDropDownResponse>> getSearchDropDown(String keyword);
     ResponseEntity<Config> getConfig();
     ResponseEntity<List<ProductItemResponseDTO>> getSearchEnter(String keyword , int page , int size);
+
+    ResponseEntity<List<ProductItemResponseDTO>> relatedproduct(String hash);
 }

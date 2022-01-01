@@ -325,4 +325,33 @@ productItemResponseDTO.setHave(productItems.getHave());
         }
         return ResponseEntity.ok(productItemResponseDTOS);
     }
+
+    @Override
+    public ResponseEntity<List<ProductItemResponseDTO>> relatedproduct(String hash) {
+        ProductItem productItem = productItemRepository.findByHashproduct(hash);
+        List<ProductItem> productItems = productItemRepository.relatedList(productItem.getProductCategory(),hash);
+        List<ProductItemResponseDTO>productItemResponseDTOS = new ArrayList<>();
+        for (int i = 0; i <productItems.size() ; i++) {
+            if(productItems.get(i).getEnable()){
+                ProductItemResponseDTO productItemResponseDTO = new ProductItemResponseDTO();
+                productItemResponseDTO.setId(productItems.get(i).getId());
+                productItemResponseDTO.setDescription(productItems.get(i).getDescription());
+                productItemResponseDTO.setDiscount(productItems.get(i).getDiscount());
+                productItemResponseDTO.setNetPrice(productItems.get(i).getNetPrice());
+                productItemResponseDTO.setRate(productItems.get(i).getRate());
+                productItemResponseDTO.setStock(productItems.get(i).getStock());
+                productItemResponseDTO.setHash(productItems.get(i).getHashproduct());
+                productItemResponseDTO.setImageUrl(productItems.get(i).getImageUrl());
+                productItemResponseDTO.setName(productItems.get(i).getName());
+                Optional<ProductCategory> productCategory = productCategoryRepository.findById(productItems.get(i).getProductCategory());
+                productItemResponseDTO.setCategoryname(productCategory.get().getName());
+                Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());
+                productItemResponseDTO.setBrandname(brand.get().getTitle());
+                productItemResponseDTO.setEnable(productItems.get(i).getEnable());
+                productItemResponseDTOS.add(productItemResponseDTO);
+            }
+
+        }
+        return ResponseEntity.ok(productItemResponseDTOS);
+    }
 }

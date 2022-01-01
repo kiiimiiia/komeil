@@ -1,5 +1,6 @@
 package ir.bourna.komeil.controllers.web;
 
+import ir.bourna.komeil.DTO.Request.EditProductNumberInOrderList;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
 import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
@@ -38,6 +39,9 @@ public class OrderController {
     public void  completeOrder(@PathVariable("phone") String phone, @RequestBody CompeletOrderRequest request){
         orderService.completeOrder(phone , request);
     }
-
+    @RequestMapping(value = "/edit-number/{phone}" ,  method = RequestMethod.POST)
+    public BaseResponseDTO editProductNumberInOrderList( @PathVariable("phone") String phone , @RequestBody EditProductNumberInOrderList request){
+        return orderService.editProductNumberInOrderList( phone , request);
+    }
 
 }

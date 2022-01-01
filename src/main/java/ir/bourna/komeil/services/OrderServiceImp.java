@@ -1,5 +1,6 @@
 package ir.bourna.komeil.services;
 
+import ir.bourna.komeil.DTO.Request.EditProductNumberInOrderList;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
 import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
@@ -43,7 +44,10 @@ public class OrderServiceImp implements OrderService {
         Optional<ProductItem> productItem = productItemRepository.findById(request.getPid());
         if (!productItem.isPresent())
             return null;
-        Optional<Color> color = colorRepository.findById(request.getColorId());
+        Color color =colorRepository.findById(0L).get();
+        if(request.getColorId()!=null){
+            color= colorRepository.findById(request.getColorId()).get();
+        }
 //        if (!productItem.get().getColors().contains(color.get()))
 //            return null;
         OrderList orderList = orderListRepository.findAllByOrderListStatusAndUser(OrderListStatus.NOT_PAID , user);
@@ -56,15 +60,40 @@ public class OrderServiceImp implements OrderService {
             orderList = orderListRepository.save(orderList);
         }
 
-        Set<OrderListProductItemNumber> productItemNumberSet = orderList.getOrderListProductItemNumberSet();
-        OrderListProductItemNumber orderListProductItemNumber = new OrderListProductItemNumber();
-        orderListProductItemNumber.setProductItem(productItem.get());
-        orderListProductItemNumber.setNumber(request.getNumber());
-        orderListProductItemNumber.setorderList(orderList);
-        productItemNumberSet.add(orderListProductItemNumber);
-        orderListProductItemNumber.setColor(color.get());
-        orderListProductItemNumberRepository.save(orderListProductItemNumber);
-        orderList.setOrderListProductItemNumberSet(productItemNumberSet);
+        Set<OrderListProductItemNumber> productItemNumberSetset= orderList.getOrderListProductItemNumberSet();
+        List<OrderListProductItemNumber>productItemNumberSet=new ArrayList<>(productItemNumberSetset);
+        if(productItemNumberSet.size()==0){
+            OrderListProductItemNumber orderListProductItemNumber = new OrderListProductItemNumber();
+            orderListProductItemNumber.setProductItem(productItem.get());
+            orderListProductItemNumber.setNumber(request.getNumber());
+            orderListProductItemNumber.setorderList(orderList);
+            orderListProductItemNumber.setColor(color);
+            productItemNumberSet.add(orderListProductItemNumber);
+            orderListProductItemNumberRepository.save(orderListProductItemNumber);
+        }
+        else{
+            for(int i=0; i<productItemNumberSet.size();i++){
+                if (request.getPid() == productItemNumberSet.get(i).getProductItem().getId()){
+                    int number = productItemNumberSet.get(i).getNumber();
+                    productItemNumberSet.get(i).setNumber(number+request.getNumber());
+                    break;
+                }
+                if (i == productItemNumberSet.size()-1){
+                    OrderListProductItemNumber orderListProductItemNumber = new OrderListProductItemNumber();
+                    orderListProductItemNumber.setProductItem(productItem.get());
+                    orderListProductItemNumber.setNumber(request.getNumber());
+                    orderListProductItemNumber.setorderList(orderList);
+                    orderListProductItemNumber.setColor(color);
+                    productItemNumberSet.add(orderListProductItemNumber);
+                    orderListProductItemNumberRepository.save(orderListProductItemNumber);
+
+                }
+            }
+        }
+        Set<OrderListProductItemNumber>res=new HashSet<>();
+        for(OrderListProductItemNumber op : productItemNumberSet)
+            res.add(op);
+        orderList.setOrderListProductItemNumberSet(res);
 //        orderList.setOrderListStatus(OrderListStatus.NOT_PAID);
         orderListRepository.save(orderList);
         BaseResponseDTO baseResponseDTO =new BaseResponseDTO();
@@ -137,5 +166,32 @@ public class OrderServiceImp implements OrderService {
         orderList.get().setTransportId(transport.get().getId());
 
 
+    }
+
+    @Override
+    public BaseResponseDTO editProductNumberInOrderList(String phone, EditProductNumberInOrderList request) {
+        User user  = userRepository.findByMobile(phone);
+        if( user == null){
+            return null;
+        }
+//        Optional<OrderList> orderList = orderListRepository.findById(request.getOrderListId());
+//        if (!orderList.isPresent())
+//            return null;
+//        Optional<ProductItem> productItem = productItemRepository.findById(request.getProductItemId());
+//        if (!productItem.isPresent())
+//            return null;
+        OrderListProductItemNumber orderListProductItemNumber = orderListProductItemNumberRepository.findById(request.getOrderListId()).get();
+        if (request.getNumber() <= 0){
+            orderListProductItemNumberRepository.delete(orderListProductItemNumber);
+        }
+        else {
+            orderListProductItemNumber.setNumber(request.getNumber());
+            orderListProductItemNumberRepository.save(orderListProductItemNumber);
+        }
+
+        BaseResponseDTO baseResponseDTO =new BaseResponseDTO();
+        baseResponseDTO.setMessage("با موفقیت ثبت شد");
+        baseResponseDTO.setCode(200);
+        return baseResponseDTO;
     }
 }

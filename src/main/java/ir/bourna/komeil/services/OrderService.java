@@ -1,5 +1,6 @@
 package ir.bourna.komeil.services;
 
+import ir.bourna.komeil.DTO.Request.EditProductNumberInOrderList;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
 import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
@@ -17,4 +18,5 @@ public interface OrderService {
     ResponseEntity<List<OrderResponseListDTO>> getOrderLog(OrderListStatus status, String phone);
     void completeOrder(String phone , CompeletOrderRequest request);
 
+    BaseResponseDTO editProductNumberInOrderList(String phone, EditProductNumberInOrderList request);
 }
