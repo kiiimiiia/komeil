@@ -1,6 +1,6 @@
 package ir.bourna.komeil.models.Enums;
 
-public enum OrderListStatus {
+public enum OrderStatus {
     FAIL("ناموفق"),
     PAID("پرداخت شده"),
     NOT_PAID("پرداخت نشده"),
@@ -9,7 +9,7 @@ public enum OrderListStatus {
 
     public final String label;
 
-    OrderListStatus(String label){
+    OrderStatus(String label){
         this.label = label;
     }
 }

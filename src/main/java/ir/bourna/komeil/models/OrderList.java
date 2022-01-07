@@ -1,7 +1,7 @@
 package ir.bourna.komeil.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ir.bourna.komeil.models.Enums.OrderListStatus;
+import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,7 +26,7 @@ public class OrderList extends AuditModel{
     private String description;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private OrderListStatus orderListStatus;
+    private OrderStatus orderStatus;
     @JsonIgnore
     @OneToMany(mappedBy = "orderList")
     private Set<OrderListProductItemNumber> orderListProductItemNumberSet = new HashSet<>();
@@ -64,13 +64,7 @@ public class OrderList extends AuditModel{
         this.description = description;
     }
 
-    public OrderListStatus getOrderListStatus() {
-        return orderListStatus;
-    }
 
-    public void setOrderListStatus(OrderListStatus orderListStatus) {
-        this.orderListStatus = orderListStatus;
-    }
 
     public Set<OrderListProductItemNumber> getOrderListProductItemNumberSet() {
         return orderListProductItemNumberSet;
@@ -94,5 +88,13 @@ public class OrderList extends AuditModel{
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

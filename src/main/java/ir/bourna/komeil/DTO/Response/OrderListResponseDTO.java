@@ -1,14 +1,7 @@
 package ir.bourna.komeil.DTO.Response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import ir.bourna.komeil.models.Enums.OrderListStatus;
-import ir.bourna.komeil.models.ProductItem;
-import ir.bourna.komeil.models.User;
-import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import ir.bourna.komeil.models.Enums.OrderStatus;
 
-import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +10,7 @@ public class OrderListResponseDTO {
     private Long id;
     private Set setAddress;
     private String description;
-    private OrderListStatus orderListStatus;
+    private OrderStatus orderStatus;
     private List<HashMap<String,String>> productItems;
 
     public Long getId() {
@@ -44,12 +37,12 @@ public class OrderListResponseDTO {
         this.description = description;
     }
 
-    public OrderListStatus getOrderListStatus() {
-        return orderListStatus;
+    public OrderStatus getOrderListStatus() {
+        return orderStatus;
     }
 
-    public void setOrderListStatus(OrderListStatus orderListStatus) {
-        this.orderListStatus = orderListStatus;
+    public void setOrderListStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public List<HashMap<String, String>> getProductItems() {

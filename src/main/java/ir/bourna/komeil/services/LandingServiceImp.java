@@ -354,4 +354,10 @@ productItemResponseDTO.setHave(productItems.getHave());
         }
         return ResponseEntity.ok(productItemResponseDTOS);
     }
+
+    @Override
+    public ResponseEntity<Blog> getdetailBlogs(String id) {
+        Blog blog = blogRepository.findById(Long.parseLong(id)).get();
+        return ResponseEntity.ok(blog);
+    }
 }

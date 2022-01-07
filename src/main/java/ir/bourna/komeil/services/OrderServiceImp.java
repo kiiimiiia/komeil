@@ -1,19 +1,23 @@
 package ir.bourna.komeil.services;
 
 import ir.bourna.komeil.DTO.Request.EditProductNumberInOrderList;
+import ir.bourna.komeil.DTO.Request.PaymentVerifyResquest;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
+import ir.bourna.komeil.DTO.Response.GetAccessTokenResponse;
 import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
+import ir.bourna.komeil.config.DargahConnection;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
 import ir.bourna.komeil.controllers.web.requests.OrderSubmitRequest;
 import ir.bourna.komeil.controllers.web.responses.OrderResponseListDTO;
 import ir.bourna.komeil.models.*;
-import ir.bourna.komeil.models.Enums.OrderListStatus;
+import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
 import ir.bourna.komeil.repositories.*;
-import org.hibernate.criterion.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -24,7 +28,8 @@ public class OrderServiceImp implements OrderService {
     private final OrderListProductItemNumberRepository orderListProductItemNumberRepository;
     private final TransportRepository transportRepository;
     private final ColorRepository colorRepository;
-
+    @Autowired
+  DargahConnection dargahConnection;
     public  OrderServiceImp(UserRepository userRepository , OrderListRepository orderListRepository , ProductItemRepository productItemRepository , OrderListProductItemNumberRepository orderListProductItemNumberRepository , TransportRepository transportRepository , ColorRepository colorRepository
     ){
         this.orderListRepository = orderListRepository;
@@ -50,13 +55,13 @@ public class OrderServiceImp implements OrderService {
         }
 //        if (!productItem.get().getColors().contains(color.get()))
 //            return null;
-        OrderList orderList = orderListRepository.findAllByOrderListStatusAndUser(OrderListStatus.NOT_PAID , user);
+        OrderList orderList = orderListRepository.findAllByOrderStatusAndUser(OrderStatus.NOT_PAID , user);
         if (orderList == null){
             orderList = new OrderList();
             orderList.setUser(user);
             orderList.setCreatedAt(System.currentTimeMillis() / 1000);
             orderList.setUpdatedAt(System.currentTimeMillis() / 1000);
-            orderList.setOrderListStatus(OrderListStatus.NOT_PAID);
+            orderList.setOrderStatus(OrderStatus.NOT_PAID);
             orderList = orderListRepository.save(orderList);
         }
 
@@ -103,12 +108,12 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public ResponseEntity<List<OrderResponseListDTO>> getOrderLog(OrderListStatus status, String phone){
+    public ResponseEntity<List<OrderResponseListDTO>> getOrderLog(OrderStatus status, String phone){
         User user  = userRepository.findByMobile(phone);
         if(user == null){
             return null;
         }
-      OrderList orderList =  orderListRepository.findAllByOrderListStatusAndUser(status,user);
+      OrderList orderList =  orderListRepository.findAllByOrderStatusAndUser(status,user);
         Set<OrderListProductItemNumber> OrderListProductItemNumber= orderList.getOrderListProductItemNumberSet();
 
         List<OrderResponseListDTO> orderResponseListDTOS = new ArrayList<>();
@@ -137,35 +142,41 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public void completeOrder(String phone , CompeletOrderRequest request){
-        User user  = userRepository.findByMobile(phone);
-        if(user != null){
-            return ;
+    public GetAccessTokenResponse completeOrder(String phone , CompeletOrderRequest request){
+//        User user  = userRepository.findByMobile(phone);
+//        if(user != null){
+//            return ;
+//        }
+//       Optional<OrderList> orderList =  orderListRepository.findById(request.getOrderListId());
+//        if(!orderList.isPresent() || !orderList.get().getUser().getId().equals(user.getId()))
+//            return;
+//        int counter = 0;
+//        for (Address address : user.getAddresses())
+//        {
+//            if(address.getId() != request.getAddressId()) {
+//                counter ++;
+//                continue;
+//            }
+//            else
+//                break;
+//
+//        }
+//        if(user.getAddresses().size() == counter)
+//            return;
+//        Optional<Transport> transport = transportRepository.findById(request.getTransporstId());
+//        if (!transport.isPresent())
+//            return;
+//
+//        orderList.get().setAddressId(request.getAddressId());
+//        orderList.get().setTransportId(transport.get().getId());
+//orderListRepository.save(orderList.get());
+
+        try {
+            return   dargahConnection.getAccessToken(request.getOrderListId(),request.getTotalprice());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-       Optional<OrderList> orderList =  orderListRepository.findById(request.getOrderListId());
-        if(!orderList.isPresent() || !orderList.get().getUser().getId().equals(user.getId()))
-            return;
-        int counter = 0;
-        for (Address address : user.getAddresses())
-        {
-            if(address.getId() != request.getAddressId()) {
-                counter ++;
-                continue;
-            }
-            else
-                break;
-
-        }
-        if(user.getAddresses().size() == counter)
-            return;
-        Optional<Transport> transport = transportRepository.findById(request.getTransporstId());
-        if (!transport.isPresent())
-            return;
-
-        orderList.get().setAddressId(request.getAddressId());
-        orderList.get().setTransportId(transport.get().getId());
-
-
+return null;
     }
 
     @Override
@@ -193,5 +204,15 @@ public class OrderServiceImp implements OrderService {
         baseResponseDTO.setMessage("با موفقیت ثبت شد");
         baseResponseDTO.setCode(200);
         return baseResponseDTO;
+    }
+
+    @Override
+    public String  verifypayment(Long id, PaymentVerifyResquest paymentVerifyResquest) {
+        try {
+            return   dargahConnection.paymentVerify(id, paymentVerifyResquest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

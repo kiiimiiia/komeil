@@ -33,4 +33,6 @@ public interface LandingService {
     ResponseEntity<List<ProductItemResponseDTO>> getSearchEnter(String keyword , int page , int size);
 
     ResponseEntity<List<ProductItemResponseDTO>> relatedproduct(String hash);
+
+    ResponseEntity<Blog> getdetailBlogs(String id);
 }

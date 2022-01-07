@@ -1,6 +1,6 @@
 package ir.bourna.komeil.repositories;
 
-import ir.bourna.komeil.models.Enums.OrderListStatus;
+import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.OrderList;
 import ir.bourna.komeil.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface OrderListRepository extends JpaRepository<OrderList, Long> {
-    OrderList findAllByOrderListStatusAndUser(OrderListStatus orderListStatus , User user);
-    List<OrderList> findAllByOrderListStatus(OrderListStatus orderListStatus );
+    OrderList findAllByOrderStatusAndUser(OrderStatus orderStatus, User user);
+    List<OrderList> findAllByOrderStatus(OrderStatus orderStatus);
 
 }

@@ -5,7 +5,7 @@ import ir.bourna.komeil.DTO.Request.*;
 import ir.bourna.komeil.DTO.Response.*;
 import ir.bourna.komeil.config.HashConfig;
 import ir.bourna.komeil.models.*;
-import ir.bourna.komeil.models.Enums.OrderListStatus;
+import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.Enums.TicketStatus;
 import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
 import ir.bourna.komeil.models.intermediate.ProductitemColor;
@@ -772,7 +772,7 @@ else{
     public ResponseEntity<List<OrderListResponseDTO>> GetAllPayedOrders(String username) {
         Admins admins = adminsRepository.findByUsername(username);
         if(admins.getTransport_role()){
-            List<OrderList> orders = orderListRepository.findAllByOrderListStatus(OrderListStatus.PAID);
+            List<OrderList> orders = orderListRepository.findAllByOrderStatus(OrderStatus.PAID);
             List<OrderListResponseDTO> orderLists = new ArrayList<>();
             HashMap<String,String> productItems = new HashMap<>();
             List<HashMap<String,String>> hashMaps = new ArrayList<>();
@@ -784,7 +784,7 @@ else{
                 orderListResponseDTO.setDescription(orders.get(i).getDescription());
                 System.out.println(orders.get(i).getDescription());
                 orderListResponseDTO.setSetAddress(orders.get(i).getUser().getAddresses());
-                orderListResponseDTO.setOrderListStatus(orders.get(i).getOrderListStatus());
+                orderListResponseDTO.setOrderListStatus(orders.get(i).getOrderStatus());
                 for (OrderListProductItemNumber orderListProductItemNumber :orders.get(i).getOrderListProductItemNumberSet()) {
                     productItems = new HashMap<>();
                     productItems.put("ProductItemNumber", String.valueOf(orderListProductItemNumber.getNumber()));

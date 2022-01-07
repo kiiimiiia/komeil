@@ -44,6 +44,10 @@ public class LandingController {
         return landingService.getAllBlogs();
     }
 
+    @RequestMapping(value = "/detailblogs" ,  method = RequestMethod.GET)
+    public ResponseEntity<Blog> getdetailBlog(@RequestParam("id") String id){
+        return landingService.getdetailBlogs(id);
+    }
     @RequestMapping(value = "/brands" ,  method = RequestMethod.GET)
     public  List<BrandResponseDTO> getbrands(){
         return landingService.getAllBrands();

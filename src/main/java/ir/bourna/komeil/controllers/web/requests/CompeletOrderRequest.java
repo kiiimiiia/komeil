@@ -4,7 +4,7 @@ public class CompeletOrderRequest {
     Long orderListId;
     Long addressId;
     Long transporstId;
-
+    String  totalprice;
     public Long getOrderListId() {
         return orderListId;
     }
@@ -27,5 +27,13 @@ public class CompeletOrderRequest {
 
     public void setTransporstId(Long transporstId) {
         this.transporstId = transporstId;
+    }
+
+    public String getTotalprice() {
+        return totalprice;
+    }
+
+    public void setTotalprice(String totalprice) {
+        this.totalprice = totalprice;
     }
 }
