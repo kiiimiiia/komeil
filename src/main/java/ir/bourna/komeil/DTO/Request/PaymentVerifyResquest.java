@@ -6,15 +6,14 @@ public class PaymentVerifyResquest {
     private int respcode;
     private int amount;
     private String invoiceid;
-    private String payload;
     private Long terminalid;
     private Long tracenumber;
     private Long rrn;
-    private String  datePaid;
+    private String  datepaid;
     private String  digitalreceipt;
     private String  issuerbank;
     private String  cardnumber;
-
+    private String  payload;
     public Long getOrderListId() {
         return orderListId;
     }
@@ -55,13 +54,8 @@ public class PaymentVerifyResquest {
         this.invoiceid = invoiceid;
     }
 
-    public String getPayload() {
-        return payload;
-    }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
+
 
     public Long getTerminalid() {
         return terminalid;
@@ -87,12 +81,12 @@ public class PaymentVerifyResquest {
         this.rrn = rrn;
     }
 
-    public String getDatePaid() {
-        return datePaid;
+    public String getDatepaid() {
+        return datepaid;
     }
 
-    public void setDatePaid(String datePaid) {
-        this.datePaid = datePaid;
+    public void setDatepaid(String datepaid) {
+        this.datepaid = datepaid;
     }
 
     public String getDigitalreceipt() {
@@ -117,5 +111,13 @@ public class PaymentVerifyResquest {
 
     public void setCardnumber(String cardnumber) {
         this.cardnumber = cardnumber;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 }

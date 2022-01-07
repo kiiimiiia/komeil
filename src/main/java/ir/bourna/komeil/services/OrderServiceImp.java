@@ -135,6 +135,8 @@ public class OrderServiceImp implements OrderService {
             orderResponseListDTO.setCount(count);
 //            Color color = colorRepository.findById(f.)
             orderResponseListDTO.setColorname(f.getColor().getName());
+            orderResponseListDTO.setId(f.getId());
+            orderResponseListDTO.setOrderListId(orderList.getId());
             orderResponseListDTOS.add(orderResponseListDTO);
         }
 

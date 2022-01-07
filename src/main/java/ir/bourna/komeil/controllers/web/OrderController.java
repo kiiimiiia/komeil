@@ -43,7 +43,7 @@ public class OrderController {
         return orderService.editProductNumberInOrderList( phone , request);
     }
     @RequestMapping(value = "/verify" ,  method = RequestMethod.POST)
-    public String verifypeyment( @RequestParam("orderLitsid") Long id , @RequestBody PaymentVerifyResquest PaymentVerifyResquest){
+    public String verifypeyment( @RequestParam("orderLitsid") Long id , PaymentVerifyResquest PaymentVerifyResquest){
         return orderService.verifypayment( id , PaymentVerifyResquest);
     }
 }

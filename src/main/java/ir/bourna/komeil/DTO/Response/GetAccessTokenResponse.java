@@ -2,7 +2,7 @@ package ir.bourna.komeil.DTO.Response;
 
 public class GetAccessTokenResponse {
     private int Status;
-    private String AccessToken;
+    private String Accesstoken;
 
     public int getStatus() {
         return Status;
@@ -12,11 +12,11 @@ public class GetAccessTokenResponse {
         Status = status;
     }
 
-    public String getAccessToken() {
-        return AccessToken;
+    public String getAccesstoken() {
+        return Accesstoken;
     }
 
-    public void setAccessToken(String accessToken) {
-        AccessToken = accessToken;
+    public void setAccesstoken(String accesstoken) {
+        Accesstoken = accesstoken;
     }
 }
