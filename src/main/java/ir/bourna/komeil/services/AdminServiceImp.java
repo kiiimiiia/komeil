@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import ir.bourna.komeil.DTO.Request.*;
 import ir.bourna.komeil.DTO.Response.*;
 import ir.bourna.komeil.config.HashConfig;
+import ir.bourna.komeil.config.SmsConfig;
 import ir.bourna.komeil.models.*;
 import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.Enums.TicketStatus;
@@ -58,6 +59,8 @@ public class AdminServiceImp implements AdminService {
     SubFilterRepository subFilterRepository;
     @Autowired
     ProductitemColorRepository productitemColorRepository;
+    @Autowired
+    DiscountRepository discountRepository;
     //--------PRODUCT CRUD----------
     @Override
     public ProductItem addProduct(AddProductRequestDTO addProductRequestDTO,String username) {
@@ -82,6 +85,8 @@ public class AdminServiceImp implements AdminService {
             productItem.setCreatedAt(System.currentTimeMillis() / 1000);
             productItem.setUpdatedAt(System.currentTimeMillis() / 1000);
             productItem.setProductCategory(productCategory.get().getId());
+            productItem.setMaterial(addProductRequestDTO.getMaterial());
+            productItem.setCount(addProductRequestDTO.getCount());
             productItem.setProductWidth(addProductRequestDTO.getProductWidth());
             productItem.setProductHeight(addProductRequestDTO.getProductHeight());
             productItem.setProductLength(addProductRequestDTO.getProductLength());
@@ -184,6 +189,8 @@ public class AdminServiceImp implements AdminService {
             productItem.get().setProductHeight(addProductRequestDTO.getProductHeight());
             productItem.get().setProductLength(addProductRequestDTO.getProductLength());
             productItem.get().setBoxHeight(addProductRequestDTO.getBoxHeight());
+            productItem.get().setMaterial(addProductRequestDTO.getMaterial());
+            productItem.get().setCount(addProductRequestDTO.getCount());
             productItem.get().setHave(true);
             productItem.get().setBoxLength(addProductRequestDTO.getBoxLength());
             productItem.get().setBoxWidth(addProductRequestDTO.getBoxWidth());
@@ -238,6 +245,8 @@ public class AdminServiceImp implements AdminService {
                 productItemResponseDTO.setBoxHeight(productItems.get(i).getBoxHeight());
                 productItemResponseDTO.setBoxLength(productItems.get(i).getBoxLength());
                 productItemResponseDTO.setWeight(productItems.get(i).getWeight());
+                productItemResponseDTO.setCount(productItems.get(i).getCount());
+                productItemResponseDTO.setMaterial(productItems.get(i).getMaterial());
                 productItemResponseDTO.setHave(productItems.get(i).getHave());
                 productItemResponseDTO.setBoxWidth(productItems.get(i).getBoxWidth());
                 System.out.println(productItems.get(i).getProductCategory());
@@ -557,6 +566,9 @@ else{
             blog.setCreated_at(currentTimestamp);
             blog.setUpdated_at(currentTimestamp);
             blog.setEnable(true);
+            blog.setFirstadditionalimage(newsRequestDTO.getFirstadditionalimage());
+            blog.setSecondadditionalimage(newsRequestDTO.getSecondadditionalimage());
+            blog.setThirdadditionalimage(newsRequestDTO.getThirdadditionalimage());
             blogRepository.save(blog);
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
@@ -581,6 +593,9 @@ else{
                 blog.get().setDescription(newsRequestDTO.getDescription());
                 blog.get().setImageurl(newsRequestDTO.getImageurl());
                 blog.get().setTopic(newsRequestDTO.getTopic());
+                blog.get().setFirstadditionalimage(newsRequestDTO.getFirstadditionalimage());
+                blog.get().setSecondadditionalimage(newsRequestDTO.getSecondadditionalimage());
+                blog.get().setThirdadditionalimage(newsRequestDTO.getThirdadditionalimage());
                 long currentTimestamp = System.currentTimeMillis();
                 blog.get().setUpdated_at(currentTimestamp);
                 blogRepository.save(blog.get());
@@ -1429,5 +1444,74 @@ else{
     public List<ProductitemColor> getProductitemcolor(String username) {
         List<ProductitemColor>productitemColors = productitemColorRepository.findAll();
         return productitemColors;
+    }
+
+    @Override
+    public BaseResponseDTO postdiscount(DiscountRequestDTO discountRequestDTO, String username) {
+        Discount discount = new Discount();
+        discount.setDiscountType(discountRequestDTO.getDiscountType());
+        discount.setEnable(true);
+        discount.setHashcode(discountRequestDTO.getHashcode());
+        discount.setValue(discountRequestDTO.getValue());
+        discountRepository.save(discount);
+        BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+        baseResponseDTO.setCode(200);
+        baseResponseDTO.setMessage("انجام شد");
+        return baseResponseDTO;
+
+    }
+
+    @Override
+    public BaseResponseDTO putdiscount(DiscountRequestDTO discountRequestDTO, String username, Long id) {
+        Discount discount = discountRepository.findById(id).get();
+        discount.setDiscountType(discountRequestDTO.getDiscountType());
+        discount.setEnable(true);
+        discount.setHashcode(discountRequestDTO.getHashcode());
+        discount.setValue(discountRequestDTO.getValue());
+        discountRepository.save(discount);
+        BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+        baseResponseDTO.setCode(200);
+        baseResponseDTO.setMessage("انجام شد");
+        return baseResponseDTO;
+    }
+
+    @Override
+    public BaseResponseDTO changestatediscount(Long id, String username) {
+        Discount discount = discountRepository.findById(id).get();
+
+        discount.setEnable(!discount.getEnable());
+        discountRepository.save(discount);
+        BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+        baseResponseDTO.setCode(200);
+        baseResponseDTO.setMessage("انجام شد");
+        return baseResponseDTO;
+    }
+
+    @Override
+    public List<Discount> getdiscount(String username) {
+       List<Discount>discounts = discountRepository.findAll();
+       return discounts;
+    }
+
+    @Override
+    public ResponseEntity<GeneratehashcodeResponse> generateHashCode() {
+        GeneratehashcodeResponse generatehashcodeResponse=new GeneratehashcodeResponse();
+        try {
+            while (true){
+                String hash = hashConfig.CreateHash();
+                Discount discount = discountRepository.findByHashcode(hash);
+                if(discount == null){
+                    generatehashcodeResponse.setHashcode(hash);
+                    break;
+                }
+
+            }
+
+
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(generatehashcodeResponse);
     }
 }

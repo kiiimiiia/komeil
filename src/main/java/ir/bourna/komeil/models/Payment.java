@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class Payment extends AuditModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

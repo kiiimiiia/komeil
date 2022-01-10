@@ -3,11 +3,13 @@ package ir.bourna.komeil.controllers.web;
 import ir.bourna.komeil.DTO.Request.EditProductNumberInOrderList;
 import ir.bourna.komeil.DTO.Request.PaymentVerifyResquest;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
+import ir.bourna.komeil.DTO.Response.CheckDiscountCodeResponse;
 import ir.bourna.komeil.DTO.Response.GetAccessTokenResponse;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
 import ir.bourna.komeil.controllers.web.requests.OrderSubmitRequest;
 import ir.bourna.komeil.controllers.web.responses.OrderResponseListDTO;
 import ir.bourna.komeil.models.Enums.OrderStatus;
+import ir.bourna.komeil.models.Transport;
 import ir.bourna.komeil.services.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +35,10 @@ public class OrderController {
     public ResponseEntity<List<OrderResponseListDTO>> getOrderLogs(@PathVariable("status") OrderStatus status, @PathVariable("phone") String phone){
       return orderService.getOrderLog(status , phone);
     }
-
+    @RequestMapping(value = "/Alllog/{phone}/{status}" , method = RequestMethod.GET)
+    public ResponseEntity<List<List<OrderResponseListDTO>>> getOrderAllLogs(@PathVariable("status") OrderStatus status, @PathVariable("phone") String phone){
+        return orderService.getOrderAllLogs(status , phone);
+    }
     @RequestMapping(value = "/complete/{phone}" , method = RequestMethod.POST)
     public GetAccessTokenResponse completeOrder(@PathVariable("phone") String phone, @RequestBody CompeletOrderRequest request){
        return orderService.completeOrder(phone , request);
@@ -45,5 +50,13 @@ public class OrderController {
     @RequestMapping(value = "/verify" ,  method = RequestMethod.POST)
     public String verifypeyment( @RequestParam("orderLitsid") Long id , PaymentVerifyResquest PaymentVerifyResquest){
         return orderService.verifypayment( id , PaymentVerifyResquest);
+    }
+    @RequestMapping(value = "/transportlist" , method = RequestMethod.GET)
+    public ResponseEntity<List<Transport>> transportlist(){
+        return orderService.transportlist();
+    }
+    @RequestMapping(value = "/checkdiscountcode" , method = RequestMethod.GET)
+    public ResponseEntity<CheckDiscountCodeResponse> checkdiscountcode(@RequestParam String hashcode){
+        return orderService.checkdiscountcode(hashcode);
     }
 }

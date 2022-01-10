@@ -299,5 +299,25 @@ public class AdminController {
     private List<ProductitemColor> getProductitemcolor(@RequestParam String username) {
         return adminService.getProductitemcolor(username);
     }
-
+    //--------discount CRUD----------
+    @PostMapping("/discount")
+    private BaseResponseDTO postdiscount(@RequestBody DiscountRequestDTO DiscountRequestDTO, @RequestParam String username) {
+        return adminService.postdiscount(DiscountRequestDTO,username);
+    }
+    @PutMapping("/discount")
+    private BaseResponseDTO putdiscount(@RequestBody DiscountRequestDTO DiscountRequestDTO, @RequestParam String username,@RequestParam Long id) {
+        return adminService.putdiscount(DiscountRequestDTO,username,id);
+    }
+    @PutMapping("/changestatediscount")
+    private BaseResponseDTO changestatediscount(@RequestParam Long id, @RequestParam String username) {
+        return adminService.changestatediscount(id,username);
+    }
+    @GetMapping("/discount")
+    private List<Discount> getdiscount(@RequestParam String username) {
+        return adminService.getdiscount(username);
+    }
+    @GetMapping("/generateHashCode")
+    private ResponseEntity<GeneratehashcodeResponse> generateHashCode() {
+        return adminService.generateHashCode();
+    }
 }

@@ -114,4 +114,14 @@ public interface AdminService {
     BaseResponseDTO changestateProductitemcolor(Long id, String username);
 
     List<ProductitemColor> getProductitemcolor(String username);
+
+    BaseResponseDTO postdiscount(DiscountRequestDTO discountRequestDTO, String username);
+
+    BaseResponseDTO putdiscount(DiscountRequestDTO discountRequestDTO, String username, Long id);
+
+    BaseResponseDTO changestatediscount(Long id, String username);
+
+    List<Discount> getdiscount(String username);
+
+    ResponseEntity<GeneratehashcodeResponse> generateHashCode();
 }

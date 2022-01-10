@@ -5,7 +5,8 @@ public enum OrderStatus {
     PAID("پرداخت شده"),
     NOT_PAID("پرداخت نشده"),
     SENT("فرستاده شده"),
-    RECEIVED("دریافت شده");
+    RECEIVED("دریافت شده"),
+    ALL("همه");
 
     public final String label;
 

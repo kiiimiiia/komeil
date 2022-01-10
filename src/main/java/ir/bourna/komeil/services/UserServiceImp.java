@@ -156,6 +156,13 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
+    public List<Address> address(String mobile) {
+        User user = userRepository.findByMobile(mobile);
+        List<Address>addresses=addressRepository.findAllByUser(user);
+        return addresses;
+    }
+
+    @Override
     public ResponseEntity<Address> addAddress (AddAddressRequest addAddressRequest , String mobile){
         User user  = userRepository.findByMobile(mobile);
         Address address =new Address();

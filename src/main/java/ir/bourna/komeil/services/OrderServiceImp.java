@@ -3,6 +3,7 @@ package ir.bourna.komeil.services;
 import ir.bourna.komeil.DTO.Request.EditProductNumberInOrderList;
 import ir.bourna.komeil.DTO.Request.PaymentVerifyResquest;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
+import ir.bourna.komeil.DTO.Response.CheckDiscountCodeResponse;
 import ir.bourna.komeil.DTO.Response.GetAccessTokenResponse;
 import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
 import ir.bourna.komeil.config.DargahConnection;
@@ -13,6 +14,7 @@ import ir.bourna.komeil.models.*;
 import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.intermediate.OrderListProductItemNumber;
 import ir.bourna.komeil.repositories.*;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,8 @@ public class OrderServiceImp implements OrderService {
     private final ColorRepository colorRepository;
     @Autowired
   DargahConnection dargahConnection;
+    @Autowired
+    DiscountRepository discountRepository;
     public  OrderServiceImp(UserRepository userRepository , OrderListRepository orderListRepository , ProductItemRepository productItemRepository , OrderListProductItemNumberRepository orderListProductItemNumberRepository , TransportRepository transportRepository , ColorRepository colorRepository
     ){
         this.orderListRepository = orderListRepository;
@@ -113,45 +117,84 @@ public class OrderServiceImp implements OrderService {
         if(user == null){
             return null;
         }
-      OrderList orderList =  orderListRepository.findAllByOrderStatusAndUser(status,user);
-        Set<OrderListProductItemNumber> OrderListProductItemNumber= orderList.getOrderListProductItemNumberSet();
 
-        List<OrderResponseListDTO> orderResponseListDTOS = new ArrayList<>();
-        for (Iterator<OrderListProductItemNumber> it = OrderListProductItemNumber.iterator(); it.hasNext(); ) {
-            OrderListProductItemNumber f = it.next();
-            ProductItemResponseDTO productItemResponseDTO = new ProductItemResponseDTO();
-            productItemResponseDTO.setId(f.getProductItem().getId());
-            productItemResponseDTO.setDescription(f.getProductItem().getDescription());
-            productItemResponseDTO.setDiscount(f.getProductItem().getDiscount());
-            productItemResponseDTO.setNetPrice(f.getProductItem().getNetPrice());
-            productItemResponseDTO.setRate(f.getProductItem().getRate());
-            productItemResponseDTO.setStock(f.getProductItem().getStock());
-            productItemResponseDTO.setHash(f.getProductItem().getHashproduct());
-            productItemResponseDTO.setImageUrl(f.getProductItem().getImageUrl());
-            productItemResponseDTO.setName(f.getProductItem().getName());
-            int count = f.getNumber();
-            OrderResponseListDTO orderResponseListDTO = new OrderResponseListDTO();
-            orderResponseListDTO.setProductItemResponseDTO(productItemResponseDTO);
-            orderResponseListDTO.setCount(count);
+            OrderList orderList =  orderListRepository.findAllByOrderStatusAndUser(status,user);
+            Set<OrderListProductItemNumber> OrderListProductItemNumber= orderList.getOrderListProductItemNumberSet();
+
+            List<OrderResponseListDTO> orderResponseListDTOS = new ArrayList<>();
+            for (Iterator<OrderListProductItemNumber> it = OrderListProductItemNumber.iterator(); it.hasNext(); ) {
+                OrderListProductItemNumber f = it.next();
+                ProductItemResponseDTO productItemResponseDTO = new ProductItemResponseDTO();
+                productItemResponseDTO.setId(f.getProductItem().getId());
+                productItemResponseDTO.setDescription(f.getProductItem().getDescription());
+                productItemResponseDTO.setDiscount(f.getProductItem().getDiscount());
+                productItemResponseDTO.setNetPrice(f.getProductItem().getNetPrice());
+                productItemResponseDTO.setRate(f.getProductItem().getRate());
+                productItemResponseDTO.setStock(f.getProductItem().getStock());
+                productItemResponseDTO.setHash(f.getProductItem().getHashproduct());
+                productItemResponseDTO.setImageUrl(f.getProductItem().getImageUrl());
+                productItemResponseDTO.setName(f.getProductItem().getName());
+                int count = f.getNumber();
+                OrderResponseListDTO orderResponseListDTO = new OrderResponseListDTO();
+                orderResponseListDTO.setProductItemResponseDTO(productItemResponseDTO);
+                orderResponseListDTO.setCount(count);
 //            Color color = colorRepository.findById(f.)
-            orderResponseListDTO.setColorname(f.getColor().getName());
-            orderResponseListDTO.setId(f.getId());
-            orderResponseListDTO.setOrderListId(orderList.getId());
-            orderResponseListDTOS.add(orderResponseListDTO);
-        }
+                orderResponseListDTO.setColorname(f.getColor().getName());
+                orderResponseListDTO.setId(f.getId());
+                orderResponseListDTO.setOrderListId(orderList.getId());
+                orderResponseListDTOS.add(orderResponseListDTO);
+            }
 
-        return ResponseEntity.ok(orderResponseListDTOS);
+            return ResponseEntity.ok(orderResponseListDTOS);
+
+
+    }
+
+    @Override
+    public ResponseEntity<List<List<OrderResponseListDTO>>> getOrderAllLogs(OrderStatus status, String phone) {
+        User user  = userRepository.findByMobile(phone);
+        List<OrderList> OrderListProductItemNum = orderListRepository.findAllByUser(user);
+        List<List<OrderResponseListDTO>>res = new LinkedList<>();
+        for (int i = 0; i <OrderListProductItemNum.size() ; i++) {
+            Set<OrderListProductItemNumber> OrderListProductItemNumber= OrderListProductItemNum.get(i).getOrderListProductItemNumberSet();
+
+            List<OrderResponseListDTO> orderResponseListDTOS = new ArrayList<>();
+            for (Iterator<OrderListProductItemNumber> it = OrderListProductItemNumber.iterator(); it.hasNext(); ) {
+                OrderListProductItemNumber f = it.next();
+                ProductItemResponseDTO productItemResponseDTO = new ProductItemResponseDTO();
+                productItemResponseDTO.setId(f.getProductItem().getId());
+                productItemResponseDTO.setDescription(f.getProductItem().getDescription());
+                productItemResponseDTO.setDiscount(f.getProductItem().getDiscount());
+                productItemResponseDTO.setNetPrice(f.getProductItem().getNetPrice());
+                productItemResponseDTO.setRate(f.getProductItem().getRate());
+                productItemResponseDTO.setStock(f.getProductItem().getStock());
+                productItemResponseDTO.setHash(f.getProductItem().getHashproduct());
+                productItemResponseDTO.setImageUrl(f.getProductItem().getImageUrl());
+                productItemResponseDTO.setName(f.getProductItem().getName());
+                int count = f.getNumber();
+                OrderResponseListDTO orderResponseListDTO = new OrderResponseListDTO();
+                orderResponseListDTO.setProductItemResponseDTO(productItemResponseDTO);
+                orderResponseListDTO.setCount(count);
+//            Color color = colorRepository.findById(f.)
+                orderResponseListDTO.setColorname(f.getColor().getName());
+                orderResponseListDTO.setId(f.getId());
+                orderResponseListDTO.setOrderListId(OrderListProductItemNum.get(i).getId());
+                orderResponseListDTOS.add(orderResponseListDTO);
+            }
+            res.add(orderResponseListDTOS);
+        }
+        return ResponseEntity.ok(res);
     }
 
     @Override
     public GetAccessTokenResponse completeOrder(String phone , CompeletOrderRequest request){
-//        User user  = userRepository.findByMobile(phone);
+        User user  = userRepository.findByMobile(phone);
 //        if(user != null){
-//            return ;
+//            return null;
 //        }
-//       Optional<OrderList> orderList =  orderListRepository.findById(request.getOrderListId());
+       Optional<OrderList> orderList =  orderListRepository.findById(request.getOrderListId());
 //        if(!orderList.isPresent() || !orderList.get().getUser().getId().equals(user.getId()))
-//            return;
+//            return null;
 //        int counter = 0;
 //        for (Address address : user.getAddresses())
 //        {
@@ -164,17 +207,19 @@ public class OrderServiceImp implements OrderService {
 //
 //        }
 //        if(user.getAddresses().size() == counter)
-//            return;
+//            return null;
 //        Optional<Transport> transport = transportRepository.findById(request.getTransporstId());
 //        if (!transport.isPresent())
-//            return;
-//
-//        orderList.get().setAddressId(request.getAddressId());
-//        orderList.get().setTransportId(transport.get().getId());
-//orderListRepository.save(orderList.get());
+//            return null;
+
+        orderList.get().setAddressId(request.getAddressId());
+        orderList.get().setTransportId(request.getTransporstId());
+        orderList.get().setDescription(request.getDescription());
+        orderList.get().setDisCountId(request.getDiscountId());
+orderListRepository.save(orderList.get());
 
         try {
-            return   dargahConnection.getAccessToken(request.getOrderListId(),request.getTotalprice());
+            return   dargahConnection.getAccessToken(request.getOrderListId(),request.getTotalprice(),request.getDiscountId());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -216,5 +261,28 @@ return null;
             e.printStackTrace();
         }
         return "";
+    }
+
+    @Override
+    public ResponseEntity<List<Transport>> transportlist() {
+        List<Transport>transports=transportRepository.findAllByEnable(true);
+        return ResponseEntity.ok(transports);
+    }
+
+    @Override
+    public ResponseEntity<CheckDiscountCodeResponse> checkdiscountcode(String hashcode) {
+        Discount discount = discountRepository.findByHashcode(hashcode);
+        CheckDiscountCodeResponse checkDiscountCodeResponse= new CheckDiscountCodeResponse();
+        if(discount==null){
+            checkDiscountCodeResponse.setStatus("NotValid");
+            return ResponseEntity.ok(checkDiscountCodeResponse);
+        }
+        if(discount.getEnable()){
+            checkDiscountCodeResponse.setStatus("Valid");
+        }
+        else {
+            checkDiscountCodeResponse.setStatus("Expire");
+        }
+        return ResponseEntity.ok(checkDiscountCodeResponse);
     }
 }

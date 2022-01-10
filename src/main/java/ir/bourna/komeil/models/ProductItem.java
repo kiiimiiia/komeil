@@ -51,6 +51,13 @@ public class ProductItem extends AuditModel{
         @Column(name = "weight")
         private String weight;
 
+        @Column(name = "count")
+        private String count;
+
+        @Column(name = "material")
+        private String material;
+
+
         @Column(name = "have")
         private Boolean have;
 
@@ -276,5 +283,21 @@ public class ProductItem extends AuditModel{
 
         public void setWeight(String weight) {
                 this.weight = weight;
+        }
+
+        public String getCount() {
+                return count;
+        }
+
+        public void setCount(String count) {
+                this.count = count;
+        }
+
+        public String getMaterial() {
+                return material;
+        }
+
+        public void setMaterial(String material) {
+                this.material = material;
         }
 }

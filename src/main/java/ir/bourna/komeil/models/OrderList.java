@@ -34,7 +34,8 @@ public class OrderList extends AuditModel{
     private Long transportId;
     @Column(name = "address_id")
     private Long addressId;
-
+    @Column(name = "discountid")
+    private Long disCountId;
 
 
     public OrderList() {
@@ -96,5 +97,13 @@ public class OrderList extends AuditModel{
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public Long getDisCountId() {
+        return disCountId;
+    }
+
+    public void setDisCountId(Long disCountId) {
+        this.disCountId = disCountId;
     }
 }

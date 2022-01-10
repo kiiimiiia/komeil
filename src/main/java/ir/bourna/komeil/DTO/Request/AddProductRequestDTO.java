@@ -26,6 +26,8 @@ private Integer rate;
     private String boxLength;
     private String boxHeight;
     private String weight;
+    private String material;
+    private String count;
     private boolean have;
 
     public String getName() {
@@ -178,5 +180,21 @@ private Integer rate;
 
     public void setHave(boolean have) {
         this.have = have;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
     }
 }

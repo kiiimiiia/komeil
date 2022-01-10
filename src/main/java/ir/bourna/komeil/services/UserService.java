@@ -28,4 +28,6 @@ public interface UserService {
     ResponseEntity<BaseResponse> confirmpass(passwordRequest passwordRequest);
 
     ResponseEntity<BaseResponse> setpass(passwordRequest passwordRequest);
+
+    List<Address> address(String mobile);
 }

@@ -35,6 +35,8 @@ private List<Color> colorsList;
     private String boxLength;
     private String boxHeight;
     private AmazingOffer amazingOffer;
+    private String material;
+    private String count;
     private boolean have;
     private String weight;
     public Long getId() {
@@ -251,5 +253,21 @@ private List<Color> colorsList;
 
     public void setHave(boolean have) {
         this.have = have;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
     }
 }

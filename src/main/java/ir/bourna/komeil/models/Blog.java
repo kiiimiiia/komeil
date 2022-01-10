@@ -20,7 +20,14 @@ public class Blog {
     private String imageurl;
 @Column(name = "enable")
 private boolean enable;
+    @Column(name = "firstadditionalimage")
+    private String firstadditionalimage;
 
+    @Column(name = "secondadditionalimage")
+    private String secondadditionalimage;
+
+    @Column(name = "thirdadditionalimage")
+    private String thirdadditionalimage;
     public Long getId() {
         return id;
     }
@@ -75,5 +82,29 @@ private boolean enable;
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public String getFirstadditionalimage() {
+        return firstadditionalimage;
+    }
+
+    public void setFirstadditionalimage(String firstadditionalimage) {
+        this.firstadditionalimage = firstadditionalimage;
+    }
+
+    public String getSecondadditionalimage() {
+        return secondadditionalimage;
+    }
+
+    public void setSecondadditionalimage(String secondadditionalimage) {
+        this.secondadditionalimage = secondadditionalimage;
+    }
+
+    public String getThirdadditionalimage() {
+        return thirdadditionalimage;
+    }
+
+    public void setThirdadditionalimage(String thirdadditionalimage) {
+        this.thirdadditionalimage = thirdadditionalimage;
     }
 }

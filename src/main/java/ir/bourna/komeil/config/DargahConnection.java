@@ -5,9 +5,12 @@ import ir.bourna.komeil.DTO.Request.PaymentVerifyResquest;
 import ir.bourna.komeil.DTO.Response.GetAccessTokenResponse;
 import ir.bourna.komeil.DTO.Response.PayloadDTO;
 import ir.bourna.komeil.DTO.Response.PaymentVerifyResponse;
+import ir.bourna.komeil.models.Discount;
+import ir.bourna.komeil.models.Enums.DiscountType;
 import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.OrderList;
 import ir.bourna.komeil.models.Payment;
+import ir.bourna.komeil.repositories.DiscountRepository;
 import ir.bourna.komeil.repositories.OrderListRepository;
 import ir.bourna.komeil.repositories.PaymentRepository;
 import okhttp3.*;
@@ -27,11 +30,25 @@ public class DargahConnection {
     OrderListRepository orderListRepository;
     @Autowired
     PaymentRepository paymentRepository;
-     public GetAccessTokenResponse getAccessToken(Long orderlistid,String totalprice) throws IOException {
+    @Autowired
+    DiscountRepository discountRepository;
+     public GetAccessTokenResponse getAccessToken(Long orderlistid, String totalprice, Long discountId) throws IOException {
+         Discount discount = discountRepository.findById(discountId).get();
+         String lastprice = totalprice;
+         if(discount!=null){
+             int price=Integer.parseInt(totalprice);
+             if(discount.getDiscountType()== DiscountType.CASH){
+                 price-=discount.getValue();
+             }
+             if(discount.getDiscountType()==DiscountType.PERCENT){
+                 price = (price*(100-discount.getValue()))/1000;
+             }
+             lastprice =String.valueOf(price);
+         }
          OkHttpClient client = new OkHttpClient().newBuilder()
                  .build();
          MediaType mediaType = MediaType.parse("application/json");
-         RequestBody body = RequestBody.create(mediaType, "{\n    \"Amount\":\""+totalprice+"\",\n\t \"callbackURL\":\"http://komeilshop.com:8081/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
+         RequestBody body = RequestBody.create(mediaType, "{\n    \"Amount\":\""+lastprice+"\",\n\t \"callbackURL\":\"http://komeilshop.com:8081/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
          System.out.println("{\n    \"Amount\":\""+totalprice+"\",\n\t \"callbackURL\":\"http://komeilshop.com:8081/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
          Request request = new Request.Builder()
                  .url("https://mabna.shaparak.ir:8081/V1/PeymentApi/GetToken")
@@ -50,6 +67,7 @@ public class DargahConnection {
            payment = new Payment();
            payment.setAccessToken(getAccessTokenResponse.getAccesstoken());
            payment.setOrderListId(orderlistid);
+           payment.setCreatedAt(System.currentTimeMillis() / 1000);
            paymentRepository.save(payment);
        }
 
@@ -94,6 +112,7 @@ public class DargahConnection {
         payment.setDigitalreceipt(paymentVerifyResquest.getDigitalreceipt());
         payment.setIssuerbank(paymentVerifyResquest.getIssuerbank());
         payment.setCardnumber(paymentVerifyResquest.getCardnumber());
+        payment.setUpdatedAt(System.currentTimeMillis() / 1000);
                 if(Objects.equals(paymentVerifyResponse.getStatus(), "NOk")){
                     payment.setOrderStatus(OrderStatus.FAIL);
 

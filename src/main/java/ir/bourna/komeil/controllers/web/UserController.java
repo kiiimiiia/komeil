@@ -47,7 +47,10 @@ public class UserController {
     public ResponseEntity<Address> edit(@RequestBody AddAddressRequest request  , @RequestParam("mobile") String mobile){
         return userService.addAddress(request , mobile);
     }
-
+    @RequestMapping(value = "/address" , method = RequestMethod.GET)
+    public List<Address> address( @RequestParam("mobile") String mobile){
+        return userService.address(mobile);
+    }
     @RequestMapping(value = "/mobile" , method = RequestMethod.POST)
     public GetMobileResponse checkMobile(@RequestBody GetMobileRequest getMobileRequestDTO) {
         return userService.checkMobile(getMobileRequestDTO.getMobile());
