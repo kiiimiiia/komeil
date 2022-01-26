@@ -249,7 +249,7 @@ public class AdminServiceImp implements AdminService {
                 productItemResponseDTO.setMaterial(productItems.get(i).getMaterial());
                 productItemResponseDTO.setHave(productItems.get(i).getHave());
                 productItemResponseDTO.setBoxWidth(productItems.get(i).getBoxWidth());
-                System.out.println(productItems.get(i).getProductCategory());
+//                System.out.println(productItems.get(i).getProductCategory());
                 Optional<ProductCategory> productCategory = productCategoryRepository.findById(productItems.get(i).getProductCategory());
                 productItemResponseDTO.setCategoryname(productCategory.get().getName());
                 Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());

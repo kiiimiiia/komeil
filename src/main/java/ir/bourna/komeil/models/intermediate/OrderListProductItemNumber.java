@@ -1,5 +1,6 @@
 package ir.bourna.komeil.models.intermediate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ir.bourna.komeil.models.Color;
 import ir.bourna.komeil.models.OrderList;
@@ -19,7 +20,7 @@ public class OrderListProductItemNumber {
     @ManyToOne
     @JoinColumn(name = "product_item_id")
     private ProductItem productItem;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_list_id")
     private OrderList orderList;

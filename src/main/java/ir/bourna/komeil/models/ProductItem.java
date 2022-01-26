@@ -78,7 +78,7 @@ public class ProductItem extends AuditModel{
         @JsonIgnore
         @OneToMany(mappedBy = "productItem")
         private Set<ProductAdditionalImage> productAdditionalImages = new HashSet<>();
-
+        @JsonIgnore
         @OneToMany(mappedBy = "productItem")
         private Set<OrderListProductItemNumber> orderListProductItemNumberSet;
 
