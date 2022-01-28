@@ -320,4 +320,19 @@ public class AdminController {
     private ResponseEntity<GeneratehashcodeResponse> generateHashCode() {
         return adminService.generateHashCode();
     }
+    @RequestMapping(value = "/firstpageproduct" ,  method = RequestMethod.POST)
+    @ApiOperation("Api for Create firstpageproduct ")
+    public BaseResponseDTO Createfirstpageproduct(@RequestBody  AddFirstpageProductDTO addFirstpageProductDTO,@RequestParam String username) {
+        return adminService.Createfirstpageproduct(addFirstpageProductDTO,username);
+    }
+    @DeleteMapping("/firstpageproduct")
+    @ApiOperation("Api for delete firstpageproduct ")
+    private BaseResponseDTO deletefirstpageproduct(@RequestParam Long id,@RequestParam String username)
+    {
+        return adminService.deletefirstpageproduct(id,username);
+    }
+    @GetMapping("/firstpageproduct")
+    private ResponseEntity<List<ProductItemResponseDTO>> getfirstpageproduct(@RequestParam String username) {
+        return adminService.getfirstpageproduct(username);
+    }
 }

@@ -61,6 +61,8 @@ public class AdminServiceImp implements AdminService {
     ProductitemColorRepository productitemColorRepository;
     @Autowired
     DiscountRepository discountRepository;
+    @Autowired
+    FirstpageProductRepository firstpageProductRepository;
     //--------PRODUCT CRUD----------
     @Override
     public ProductItem addProduct(AddProductRequestDTO addProductRequestDTO,String username) {
@@ -1514,4 +1516,87 @@ else{
         }
         return ResponseEntity.ok(generatehashcodeResponse);
     }
+    @Override
+    public BaseResponseDTO Createfirstpageproduct(AddFirstpageProductDTO addFirstpageProductDTO, String username) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getProduct_role()){
+            FirstpageProduct firstpageProduct = new FirstpageProduct();
+            firstpageProduct.setProductId(addFirstpageProductDTO.getProductid());
+            firstpageProduct.setCreatedAt(System.currentTimeMillis()/1000);
+            firstpageProduct.setUpdatedAt(System.currentTimeMillis()/1000);
+            firstpageProductRepository.save(firstpageProduct);
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("با موفقیت ثبت شد");
+            return baseResponseDTO;
+        }
+
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }
+    }
+
+    @Override
+    public BaseResponseDTO deletefirstpageproduct(Long id, String username) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getProduct_role()){
+            firstpageProductRepository.deleteById(id);
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("با موفقیت حذف شد");
+            return baseResponseDTO;
+        }
+
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<ProductItemResponseDTO>> getfirstpageproduct(String username) {
+        Iterable<FirstpageProduct> firstpageProducts = firstpageProductRepository.findAll();
+        List<FirstpageProduct> firstpageProduct =Lists.newArrayList(firstpageProducts);
+        List<ProductItemResponseDTO> productItemResponseDTOS = new ArrayList<>();
+        for(int i=0;i<firstpageProduct.size();i++)
+        {
+            ProductItem productItems= productItemRepository.findById(Long.parseLong(firstpageProduct.get(i).getProductId())).get();
+            ProductItemResponseDTO productItemResponseDTO = new ProductItemResponseDTO();
+            productItemResponseDTO.setId(productItems.getId());
+            productItemResponseDTO.setDescription(productItems.getDescription());
+            productItemResponseDTO.setDiscount(productItems.getDiscount());
+            productItemResponseDTO.setNetPrice(productItems.getNetPrice());
+            productItemResponseDTO.setRate(productItems.getRate());
+            productItemResponseDTO.setStock(productItems.getStock());
+            productItemResponseDTO.setImageUrl(productItems.getImageUrl());
+            productItemResponseDTO.setName(productItems.getName());
+            productItemResponseDTO.setHash(productItems.getHashproduct());
+            productItemResponseDTO.setProductHeight(productItems.getProductHeight());
+            productItemResponseDTO.setProductLength(productItems.getProductLength());
+            productItemResponseDTO.setProductWidth(productItems.getProductWidth());
+            productItemResponseDTO.setBoxHeight(productItems.getBoxHeight());
+            productItemResponseDTO.setBoxLength(productItems.getBoxLength());
+            productItemResponseDTO.setWeight(productItems.getWeight());
+            productItemResponseDTO.setCount(productItems.getCount());
+            productItemResponseDTO.setMaterial(productItems.getMaterial());
+            productItemResponseDTO.setHave(productItems.getHave());
+            productItemResponseDTO.setBoxWidth(productItems.getBoxWidth());
+//                System.out.println(productItems.get(i).getProductCategory());
+            Optional<ProductCategory> productCategory = productCategoryRepository.findById(productItems.getProductCategory());
+            productItemResponseDTO.setCategoryname(productCategory.get().getName());
+            Optional<Brand> brand = brandRepository.findById(productItems.getBrandId());
+            productItemResponseDTO.setBrandname(brand.get().getTitle());
+            productItemResponseDTO.setEnable(productItems.getEnable());
+            productItemResponseDTOS.add(productItemResponseDTO);
+        }
+        return ResponseEntity.ok(productItemResponseDTOS);
+    }
+
+
+
 }

@@ -124,4 +124,9 @@ public interface AdminService {
     List<Discount> getdiscount(String username);
 
     ResponseEntity<GeneratehashcodeResponse> generateHashCode();
+    BaseResponseDTO Createfirstpageproduct(AddFirstpageProductDTO addFirstpageProductDTO, String username);
+
+    BaseResponseDTO deletefirstpageproduct(Long id, String username);
+
+    ResponseEntity<List<ProductItemResponseDTO>> getfirstpageproduct(String username);
 }

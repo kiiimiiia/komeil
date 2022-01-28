@@ -35,4 +35,5 @@ public interface LandingService {
     ResponseEntity<List<ProductItemResponseDTO>> relatedproduct(String hash);
 
     ResponseEntity<Blog> getdetailBlogs(String id);
+    List<ProductItemResponseDTO> getfirstpageproduct();
 }

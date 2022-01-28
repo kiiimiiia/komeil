@@ -1,5 +1,6 @@
 package ir.bourna.komeil.services;
 
+import com.google.common.collect.Lists;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
 import ir.bourna.komeil.DTO.Response.BrandResponseDTO;
 import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
@@ -28,6 +29,7 @@ public class LandingServiceImp implements LandingService{
     private final ProductItemRepository productItemRepository;
     private final ConfigRepository configRepository;
     private  final ColorRepository colorRepository;
+    private final FirstpageProductRepository firstpageProductRepository;
     @Autowired
     public LandingServiceImp(
             FilterRepository filterRepository,
@@ -38,6 +40,7 @@ public class LandingServiceImp implements LandingService{
             AmazingOfferRepository amazingOfferRepository,
             ProductItemRepository productItemRepository,
             ColorRepository colorRepository,
+            FirstpageProductRepository firstpageProductRepository,
             ConfigRepository configRepository
     ){
         this.filterRepository = filterRepository;
@@ -49,7 +52,9 @@ public class LandingServiceImp implements LandingService{
         this.productItemRepository = productItemRepository;
         this.colorRepository=colorRepository;
         this.configRepository = configRepository;
+        this.firstpageProductRepository=firstpageProductRepository;
     }
+
 
     public List<Filter> getAllFilters(){
         return filterRepository.findAll();
@@ -362,4 +367,43 @@ productItemResponseDTO.setHave(productItems.getHave());
         Blog blog = blogRepository.findById(Long.parseLong(id)).get();
         return ResponseEntity.ok(blog);
     }
+    @Override
+    public List<ProductItemResponseDTO> getfirstpageproduct() {
+        Iterable<FirstpageProduct> firstpageProducts = firstpageProductRepository.findAll();
+        List<FirstpageProduct> firstpageProduct =Lists.newArrayList(firstpageProducts);
+        List<ProductItemResponseDTO> productItemResponseDTOS = new ArrayList<>();
+        for(int i=0;i<firstpageProduct.size();i++)
+        {
+            ProductItem productItems= productItemRepository.findById(Long.parseLong(firstpageProduct.get(i).getProductId())).get();
+            ProductItemResponseDTO productItemResponseDTO = new ProductItemResponseDTO();
+            productItemResponseDTO.setId(productItems.getId());
+            productItemResponseDTO.setDescription(productItems.getDescription());
+            productItemResponseDTO.setDiscount(productItems.getDiscount());
+            productItemResponseDTO.setNetPrice(productItems.getNetPrice());
+            productItemResponseDTO.setRate(productItems.getRate());
+            productItemResponseDTO.setStock(productItems.getStock());
+            productItemResponseDTO.setImageUrl(productItems.getImageUrl());
+            productItemResponseDTO.setName(productItems.getName());
+            productItemResponseDTO.setHash(productItems.getHashproduct());
+            productItemResponseDTO.setProductHeight(productItems.getProductHeight());
+            productItemResponseDTO.setProductLength(productItems.getProductLength());
+            productItemResponseDTO.setProductWidth(productItems.getProductWidth());
+            productItemResponseDTO.setBoxHeight(productItems.getBoxHeight());
+            productItemResponseDTO.setBoxLength(productItems.getBoxLength());
+            productItemResponseDTO.setWeight(productItems.getWeight());
+            productItemResponseDTO.setCount(productItems.getCount());
+            productItemResponseDTO.setMaterial(productItems.getMaterial());
+            productItemResponseDTO.setHave(productItems.getHave());
+            productItemResponseDTO.setBoxWidth(productItems.getBoxWidth());
+//                System.out.println(productItems.get(i).getProductCategory());
+            Optional<ProductCategory> productCategory = productCategoryRepository.findById(productItems.getProductCategory());
+            productItemResponseDTO.setCategoryname(productCategory.get().getName());
+            Optional<Brand> brand = brandRepository.findById(productItems.getBrandId());
+            productItemResponseDTO.setBrandname(brand.get().getTitle());
+            productItemResponseDTO.setEnable(productItems.getEnable());
+            productItemResponseDTOS.add(productItemResponseDTO);
+        }
+        return productItemResponseDTOS;
+    }
+
 }

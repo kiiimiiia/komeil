@@ -91,6 +91,10 @@ public class LandingController {
     public ResponseEntity<List<ProductItemResponseDTO>> getSearchEnter(@PathVariable("keyword") String keyword ,@RequestParam("page") int page, @RequestParam("size") int size){
         return landingService.getSearchEnter(keyword , page , size);
     }
+    @GetMapping("/firstpageproduct")
+    private List<ProductItemResponseDTO> getfirstpageproduct() {
+        return landingService.getfirstpageproduct();
+    }
     @RequestMapping(value = "/config", method = RequestMethod.GET)
     public ResponseEntity<Config> getConfig(){
         return landingService.getConfig();
