@@ -35,7 +35,7 @@ public class UserServiceImp implements UserService{
     final private OtpRepository otpRepository;
     final private TicketRepository ticketRepository;
     @Autowired
-    SmsConfig SmsConfig;
+    SmsConfig smsConfig;
 @Autowired
     AddressRepository addressRepository;
 
@@ -100,11 +100,10 @@ public class UserServiceImp implements UserService{
     public String getOtpCode(String mobile){
 
 
-            final String generate =String.valueOf(SmsConfig.GenerateOtp());
-            String message = "به تاپ نور خوش آمدید\n کد تایید شما : "+generate;
-//          String res = SmsConfig.SendSms(mobile,message);
-//            System.out.println(res);
-            Otp otp = otpRepository.findByMobileAndStatus(mobile, OtpStatus.GENERATED);
+            final String generate =smsConfig.GenerateOtp();
+        String res = smsConfig.SendSms(mobile,generate);
+
+        Otp otp = otpRepository.findByMobileAndStatus(mobile, OtpStatus.GENERATED);
             if (otp != null) {
                 otp.setCode(generate);
                 otpRepository.save(otp);
@@ -117,7 +116,7 @@ public class UserServiceImp implements UserService{
             }
 
 
-        return null;
+        return res;
 
 
     }
@@ -127,7 +126,7 @@ public class UserServiceImp implements UserService{
             return ResponseEntity.badRequest().body(new BaseResponse(400,"شما ثبت نام نکرده اید"));
         }
         else {
-            if (confirmOtpRequest.getCode().equals(12345)) {
+            if (confirmOtpRequest.getCode().equals(otp.getCode())) {
                 otp.setStatus(OtpStatus.USED);
                 otpRepository.save(otp);
                 return ResponseEntity.ok().body(new BaseResponse(200 , "کد شما صحیح است"));

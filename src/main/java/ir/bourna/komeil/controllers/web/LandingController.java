@@ -7,6 +7,7 @@ import ir.bourna.komeil.controllers.web.responses.BannerResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.SearchDropDownResponse;
 import ir.bourna.komeil.models.*;
 import ir.bourna.komeil.services.LandingService;
+import ir.bourna.komeil.utils.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -99,5 +100,10 @@ public class LandingController {
     public ResponseEntity<Config> getConfig(){
         return landingService.getConfig();
     }
+
+//    @RequestMapping(value = "/otp", method = RequestMethod.GET)
+//    public ResponseEntity<BaseResponse> getOtp(@RequestParam String phone){
+//        return landingService.getOtp(phone);
+//    }
 
 }

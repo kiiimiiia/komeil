@@ -51,9 +51,11 @@ public class FileServiceImp implements FileService {
                 }
                 final Path targetLocation = this.fileStorageLocation.resolve(fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-                final String fileDownloadUri = this.getFileDownloadUrl(fileName);
+                String fileDownloadUri = this.getFileDownloadUrl(fileName);
                 final FileEntity fileEntity = new FileEntity();
+                fileDownloadUri=fileDownloadUri.replace("http://localhost:8081", "https://backend.komeilshop.com");
                 fileEntity.setPath(fileDownloadUri);
+
                 final FileEntity savedProfile = fileRepository.save(fileEntity);
                 return new UploadImageResponseDTO(savedProfile.getId(), savedProfile.getPath());
             } catch (IOException ex) {

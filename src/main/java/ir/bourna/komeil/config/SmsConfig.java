@@ -1,11 +1,14 @@
 package ir.bourna.komeil.config;
 
 
+import ir.bourna.komeil.controllers.web.requests.ParametrSendOtp;
+import ir.bourna.komeil.controllers.web.requests.SendOtp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Random;
 
@@ -24,10 +27,11 @@ public class SmsConfig {
     @Autowired
     WebClient.Builder webclient;
 
-    public int GenerateOtp() {
+    public String GenerateOtp() {
         Random random = new Random();
         int otp = 10000 + random.nextInt(90000);
-        return 12345;
+
+        return  String.valueOf(otp);
     }
 /*
 
@@ -52,20 +56,28 @@ public class SmsConfig {
 */
 
     public String SendSms(String phone, String text) {
+        SendOtp sendOtp = new SendOtp();
+        ParametrSendOtp parametrSendOtp = new ParametrSendOtp();
+        ParametrSendOtp[] parametrSendOtps = new ParametrSendOtp[1];
+        sendOtp.setMobile(phone);
+        sendOtp.setTemplateId(888889);
+        parametrSendOtp.setName("CODE");
+        parametrSendOtp.setValue(text);
+        parametrSendOtps[0]= parametrSendOtp;
+        sendOtp.setParameters(parametrSendOtps);
+        String sendurl = "https://api.sms.ir/v1/send/verify";
+        String headers = "{\n\t\"Content-Type\":\" application/json\" \n}\n";
+        String result = webclient.build()
+                .post()
+                .uri(sendurl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(headers)
+                .header("X-API-KEY", "8gsv4fQGjJvDugVRotxXi1cTtNfwQsVqal1WrU0nNLena4UPSRmNoF7WChyQN5li")
+                .body(Mono.just(sendOtp), SendOtp.class)
+                .retrieve().bodyToMono(String.class).block();
 
-//        String sendurl = "https://api.kavenegar.com/v1/"+apikey+"/sms/send.json?receptor="+phone+"&sender="+senderline+"&message="+text;
+        return result;
 
-
-
-//        String headers = "{\n\t\"Content-Type\":\" application/json\" \n}\n";
-//        String result = webclient.build()
-//                .post()
-//                .uri(sendurl)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .header(headers)
-//                .retrieve().bodyToMono(String.class).block();
-
-        return "result";
     }
 
 }

@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import ir.bourna.komeil.DTO.Response.BaseResponseDTO;
 import ir.bourna.komeil.DTO.Response.BrandResponseDTO;
 import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
+import ir.bourna.komeil.config.SmsConfig;
 import ir.bourna.komeil.controllers.web.responses.BannerResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.SearchDropDownResponse;
 import ir.bourna.komeil.models.*;
 import ir.bourna.komeil.models.intermediate.ProductitemColor;
 import ir.bourna.komeil.repositories.*;
+import ir.bourna.komeil.utils.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -406,4 +408,12 @@ productItemResponseDTO.setHave(productItems.getHave());
         return productItemResponseDTOS;
     }
 
+    @Override
+    public ResponseEntity<BaseResponse> getOtp(String phone) {
+//        String res = smsConfig.SendSms(phone,"");
+//        BaseResponse baseResponse = new BaseResponse(200,res);
+//        System.out.println(res);
+//        return ResponseEntity.ok(baseResponse);
+        return null;
+    }
 }

@@ -1567,7 +1567,7 @@ else{
         {
             ProductItem productItems= productItemRepository.findById(Long.parseLong(firstpageProduct.get(i).getProductId())).get();
             ProductItemResponseDTO productItemResponseDTO = new ProductItemResponseDTO();
-            productItemResponseDTO.setId(productItems.getId());
+            productItemResponseDTO.setId(firstpageProduct.get(i).getId());
             productItemResponseDTO.setDescription(productItems.getDescription());
             productItemResponseDTO.setDiscount(productItems.getDiscount());
             productItemResponseDTO.setNetPrice(productItems.getNetPrice());

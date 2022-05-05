@@ -6,6 +6,7 @@ import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.BannerResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.SearchDropDownResponse;
 import ir.bourna.komeil.models.*;
+import ir.bourna.komeil.utils.BaseResponse;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -36,4 +37,6 @@ public interface LandingService {
 
     ResponseEntity<Blog> getdetailBlogs(String id);
     List<ProductItemResponseDTO> getfirstpageproduct();
+
+    ResponseEntity<BaseResponse> getOtp(String phone);
 }

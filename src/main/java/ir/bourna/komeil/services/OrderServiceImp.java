@@ -9,6 +9,7 @@ import ir.bourna.komeil.DTO.Response.ProductItemResponseDTO;
 import ir.bourna.komeil.config.DargahConnection;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
 import ir.bourna.komeil.controllers.web.requests.OrderSubmitRequest;
+import ir.bourna.komeil.controllers.web.responses.OrderLogResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.OrderResponseListDTO;
 import ir.bourna.komeil.models.*;
 import ir.bourna.komeil.models.Enums.OrderStatus;
@@ -151,12 +152,20 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public ResponseEntity<List<List<OrderResponseListDTO>>> getOrderAllLogs(OrderStatus status, String phone) {
+    public ResponseEntity<List<OrderLogResponseDTO>> getOrderAllLogs(String phone) {
+
+
+        List<OrderLogResponseDTO> orderLogResponseDTOS = new ArrayList<>();
+
+
+        OrderLogResponseDTO orderLogResponseDTO ;
         User user  = userRepository.findByMobile(phone);
-        List<OrderList> OrderListProductItemNum = orderListRepository.findAllByUser(user);
-        List<List<OrderResponseListDTO>>res = new LinkedList<>();
-        for (int i = 0; i <OrderListProductItemNum.size() ; i++) {
-            Set<OrderListProductItemNumber> OrderListProductItemNumber= OrderListProductItemNum.get(i).getOrderListProductItemNumberSet();
+        List<OrderList> orderLists = orderListRepository.findAllByUser(user);
+        for (int i = 0; i <orderLists.size() ; i++) {
+            orderLogResponseDTO = new OrderLogResponseDTO();
+            orderLogResponseDTO.setOrderList(orderLists.get(i));
+
+            Set<OrderListProductItemNumber> OrderListProductItemNumber= orderLists.get(i).getOrderListProductItemNumberSet();
 
             List<OrderResponseListDTO> orderResponseListDTOS = new ArrayList<>();
             for (Iterator<OrderListProductItemNumber> it = OrderListProductItemNumber.iterator(); it.hasNext(); ) {
@@ -178,12 +187,16 @@ public class OrderServiceImp implements OrderService {
 //            Color color = colorRepository.findById(f.)
                 orderResponseListDTO.setColorname(f.getColor().getName());
                 orderResponseListDTO.setId(f.getId());
-                orderResponseListDTO.setOrderListId(OrderListProductItemNum.get(i).getId());
+                orderResponseListDTO.setOrderListId(orderLists.get(i).getId());
                 orderResponseListDTOS.add(orderResponseListDTO);
             }
-            res.add(orderResponseListDTOS);
+            orderLogResponseDTO.setProductItemResponseDTOS(orderResponseListDTOS);
+            orderLogResponseDTOS.add(orderLogResponseDTO);
         }
-        return ResponseEntity.ok(res);
+
+
+
+        return ResponseEntity.ok(orderLogResponseDTOS);
     }
 
     @Override

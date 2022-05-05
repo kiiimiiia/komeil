@@ -7,6 +7,7 @@ import ir.bourna.komeil.DTO.Response.CheckDiscountCodeResponse;
 import ir.bourna.komeil.DTO.Response.GetAccessTokenResponse;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
 import ir.bourna.komeil.controllers.web.requests.OrderSubmitRequest;
+import ir.bourna.komeil.controllers.web.responses.OrderLogResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.OrderResponseListDTO;
 import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.Transport;
@@ -35,9 +36,9 @@ public class OrderController {
     public ResponseEntity<List<OrderResponseListDTO>> getOrderLogs(@PathVariable("status") OrderStatus status, @PathVariable("phone") String phone){
       return orderService.getOrderLog(status , phone);
     }
-    @RequestMapping(value = "/Alllog/{phone}/{status}" , method = RequestMethod.GET)
-    public ResponseEntity<List<List<OrderResponseListDTO>>> getOrderAllLogs(@PathVariable("status") OrderStatus status, @PathVariable("phone") String phone){
-        return orderService.getOrderAllLogs(status , phone);
+    @RequestMapping(value = "/Alllog/{phone}" , method = RequestMethod.GET)
+    public ResponseEntity<List<OrderLogResponseDTO>>  getOrderAllLogs(@PathVariable("phone") String phone){
+        return orderService.getOrderAllLogs( phone);
     }
     @RequestMapping(value = "/complete/{phone}" , method = RequestMethod.POST)
     public GetAccessTokenResponse completeOrder(@PathVariable("phone") String phone, @RequestBody CompeletOrderRequest request){

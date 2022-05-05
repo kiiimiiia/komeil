@@ -35,21 +35,22 @@ public class DargahConnection {
      public GetAccessTokenResponse getAccessToken(Long orderlistid, String totalprice, Long discountId) throws IOException {
          Discount discount = discountRepository.findById(discountId).get();
          String lastprice = totalprice;
-         if(discount!=null){
-             int price=Integer.parseInt(totalprice);
-             if(discount.getDiscountType()== DiscountType.CASH){
-                 price-=discount.getValue();
-             }
-             if(discount.getDiscountType()==DiscountType.PERCENT){
-                 price = (price*(100-discount.getValue()))/1000;
-             }
-             lastprice =String.valueOf(price);
-         }
+//         if(discount!=null){
+//             int price=Integer.parseInt(totalprice);
+//             if(discount.getDiscountType()== DiscountType.CASH){
+//                 price-=discount.getValue();
+//             }
+//             if(discount.getDiscountType()==DiscountType.PERCENT){
+//                 price = (price*(100-discount.getValue()))/1000;
+//             }
+//             lastprice =String.valueOf(price);
+//         }
+
          OkHttpClient client = new OkHttpClient().newBuilder()
                  .build();
          MediaType mediaType = MediaType.parse("application/json");
-         RequestBody body = RequestBody.create(mediaType, "{\n    \"Amount\":\""+lastprice+"\",\n\t \"callbackURL\":\"http://komeilshop.com:8081/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
-         System.out.println("{\n    \"Amount\":\""+totalprice+"\",\n\t \"callbackURL\":\"http://komeilshop.com:8081/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
+         RequestBody body = RequestBody.create(mediaType, "{\n    \"Amount\":\""+lastprice+"\",\n\t \"callbackURL\":\"https://backend.komeilshop.com/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
+         System.out.println("{\n    \"Amount\":\""+totalprice+"\",\n\t \"callbackURL\":\"https://backend.komeilshop.com/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
          Request request = new Request.Builder()
                  .url("https://mabna.shaparak.ir:8081/V1/PeymentApi/GetToken")
                  .method("POST", body)
@@ -67,6 +68,7 @@ public class DargahConnection {
            payment = new Payment();
            payment.setAccessToken(getAccessTokenResponse.getAccesstoken());
            payment.setOrderListId(orderlistid);
+           payment.setUpdatedAt(System.currentTimeMillis() / 1000);
            payment.setCreatedAt(System.currentTimeMillis() / 1000);
            paymentRepository.save(payment);
        }
@@ -131,7 +133,7 @@ public class DargahConnection {
                     "<div style=\" display: flex; align-items: center;background-color: rgb(127,127,127,0.2);width:350px;height: 450px;border-radius: 10px; flex-direction: column;\">\n" +
                     "  <img src=\"https://icons.veryicon.com/png/System/Amora/Delete.png\" style=\"width:90px;padding-top: 70px\"></img>\n" +
                     "<h3 style=\"color:   red;font-family:sans-serif;\">عملیات با موفقیت انجام نشد</h3>\n" +
-                    "<a href='http://komeilshop.com'><button   style=\"width: 100px;height: 40px;border-radius: 15px ;border-style: solid;border-color: rgb(0,0,0,0.3);margin-top:100px\">بازگشت</button> </a>\n" +
+                    "<a href='https://komeilshop.com'><button   style=\"width: 100px;height: 40px;border-radius: 15px ;border-style: solid;border-color: rgb(0,0,0,0.3);margin-top:100px\">بازگشت</button> </a>\n" +
                     "\n" +
                     "</div>\n" +
                     "\n" +
@@ -149,7 +151,7 @@ public class DargahConnection {
                     "<div style=\" display: flex; align-items: center;background-color: rgb(127,127,127,0.2);width:350px;height: 450px;border-radius: 10px; flex-direction: column;\">\n" +
                     "  <img src=\"https://www.turandesign.com/images/success-icon.png\" style=\"width:90px;padding-top: 70px\"></img>\n" +
                     "<h3 style=\"color:   rgb(34,139,34);font-family:sans-serif;\">عملیات با موفقیت انجام شد</h3>\n" +
-                    "<a href='http://komeilshop.com/profile/order'>\n" +
+                    "<a href='https://komeilshop.com/profile/order'>\n" +
                     "<button style=\"width: 100px;height: 40px;border-radius: 15px ;border-style: solid;border-color: rgb(0,0,0,0.3);margin-top:100px\">بازگشت</button>\n" +
                     "</a>\n" +
                     "</div>\n" +

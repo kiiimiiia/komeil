@@ -7,6 +7,7 @@ import ir.bourna.komeil.DTO.Response.CheckDiscountCodeResponse;
 import ir.bourna.komeil.DTO.Response.GetAccessTokenResponse;
 import ir.bourna.komeil.controllers.web.requests.CompeletOrderRequest;
 import ir.bourna.komeil.controllers.web.requests.OrderSubmitRequest;
+import ir.bourna.komeil.controllers.web.responses.OrderLogResponseDTO;
 import ir.bourna.komeil.controllers.web.responses.OrderResponseListDTO;
 import ir.bourna.komeil.models.Enums.OrderStatus;
 import ir.bourna.komeil.models.Transport;
@@ -23,7 +24,7 @@ public interface OrderService {
 
     String  verifypayment(Long id, PaymentVerifyResquest paymentVerifyResquest);
 
-    ResponseEntity<List<List<OrderResponseListDTO>>> getOrderAllLogs(OrderStatus status, String phone);
+    ResponseEntity<List<OrderLogResponseDTO>> getOrderAllLogs(String phone);
 
     ResponseEntity<List<Transport>> transportlist();
 
