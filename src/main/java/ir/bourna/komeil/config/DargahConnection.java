@@ -104,7 +104,7 @@ public class DargahConnection {
 
                 payment.setRespcode(paymentVerifyResquest.getRespcode());
         payment.setRespmsg(paymentVerifyResquest.getRespmsg());
-        payment.setAmount(paymentVerifyResquest.getAmount());
+        payment.setAmount(Integer.parseInt(paymentVerifyResquest.getAmount()));
         payment.setInvoiceid(paymentVerifyResquest.getInvoiceid());
         payment.setPayload(paymentVerifyResquest.getPayload());
         payment.setTerminalid(paymentVerifyResquest.getTerminalid());

@@ -4,7 +4,7 @@ public class PaymentVerifyResquest {
     private Long orderListId;
     private String respmsg;
     private int respcode;
-    private int amount;
+    private String  amount;
     private String invoiceid;
     private Long terminalid;
     private Long tracenumber;
@@ -38,11 +38,11 @@ public class PaymentVerifyResquest {
         this.respcode = respcode;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
