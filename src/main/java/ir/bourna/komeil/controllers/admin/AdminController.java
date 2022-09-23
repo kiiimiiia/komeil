@@ -44,7 +44,10 @@ public class AdminController {
     private BaseResponseDTO changestateproduct(@RequestParam Long id,@RequestParam String username) {
         return adminService.changestateproduct(id,username);
     }
-
+    @DeleteMapping("/additionalimage")
+    private BaseResponseDTO additionalimage(@RequestParam Long id,@RequestParam String username) {
+        return adminService.additionalimage(id,username);
+    }
     @PutMapping("/endofstock")
     private BaseResponseDTO endofstock(@RequestParam Long id,@RequestParam String username) {
         return adminService.endofstock(id,username);

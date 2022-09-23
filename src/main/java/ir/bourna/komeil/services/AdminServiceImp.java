@@ -257,6 +257,8 @@ public class AdminServiceImp implements AdminService {
                 Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());
                 productItemResponseDTO.setBrandname(brand.get().getTitle());
                 productItemResponseDTO.setEnable(productItems.get(i).getEnable());
+                productItemResponseDTO.setProductAdditionalImages(productItems.get(i).getProductAdditionalImages());
+
                 productItemResponseDTOS.add(productItemResponseDTO);
             }
             return ResponseEntity.ok(productItemResponseDTOS);
@@ -1596,7 +1598,24 @@ else{
         }
         return ResponseEntity.ok(productItemResponseDTOS);
     }
+    @Override
+    public BaseResponseDTO additionalimage(Long id, String username) {
 
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getProduct_role()){
+            productAdditionalImageRepository.deleteById(id);
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("ثبت شد");
+            return baseResponseDTO;
+        }
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }
+    }
 
 
 }
