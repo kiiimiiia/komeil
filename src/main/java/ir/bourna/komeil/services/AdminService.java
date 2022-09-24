@@ -131,4 +131,6 @@ public interface AdminService {
     ResponseEntity<List<ProductItemResponseDTO>> getfirstpageproduct(String username);
 
     BaseResponseDTO additionalimage(Long id, String username);
+
+    BaseResponseDTO deleteAmazingOffer(String username, Long id);
 }

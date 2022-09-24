@@ -916,6 +916,24 @@ else{
         }
     }
 
+    @Override
+    public BaseResponseDTO deleteAmazingOffer(String username, Long id) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getProduct_role()){
+            amazingOfferRepository.deleteById(id);
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage("محصول فوق العاده حذف شد");
+            return baseResponseDTO;
+        }
+
+        else{
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(403);
+            baseResponseDTO.setMessage("اجازه ندارید");
+            return baseResponseDTO;
+        }    }
+
     //--------TRANSPORT CRUD----------
     @Override
     public ResponseEntity<List<Transport>> getTransport(String username) {

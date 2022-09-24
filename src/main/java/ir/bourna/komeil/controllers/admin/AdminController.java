@@ -182,7 +182,10 @@ public class AdminController {
     private List<AmazingOfferResponseDTO> getAmazingOffer(@RequestParam String username) {
         return adminService.getAmazingOffer(username);
     }
-
+    @DeleteMapping("/amzoffer")
+    private BaseResponseDTO deleteAmazingOffer(@RequestParam String username,@RequestParam Long id) {
+        return adminService.deleteAmazingOffer(username,id);
+    }
     //--------Brand CRUD----------
 
     @RequestMapping(value = "/brand" ,  method = RequestMethod.POST)
