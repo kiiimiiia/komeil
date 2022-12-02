@@ -80,4 +80,29 @@ public class SmsConfig {
 
     }
 
+    public String SendSuccessSms(String phone, String text) {
+        SendOtp sendOtp = new SendOtp();
+        ParametrSendOtp parametrSendOtp = new ParametrSendOtp();
+        ParametrSendOtp[] parametrSendOtps = new ParametrSendOtp[1];
+        sendOtp.setMobile(phone);
+        sendOtp.setTemplateId(148267);
+        parametrSendOtp.setName("CODE");
+        parametrSendOtp.setValue(text);
+        parametrSendOtps[0]= parametrSendOtp;
+        sendOtp.setParameters(parametrSendOtps);
+        String sendurl = "https://api.sms.ir/v1/send/verify";
+        String headers = "{\n\t\"Content-Type\":\" application/json\" \n}\n";
+        String result = webclient.build()
+                .post()
+                .uri(sendurl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(headers)
+                .header("X-API-KEY", "8gsv4fQGjJvDugVRotxXi1cTtNfwQsVqal1WrU0nNLena4UPSRmNoF7WChyQN5li")
+                .body(Mono.just(sendOtp), SendOtp.class)
+                .retrieve().bodyToMono(String.class).block();
+
+        return result;
+
+    }
+
 }

@@ -232,7 +232,7 @@ public class OrderServiceImp implements OrderService {
 orderListRepository.save(orderList.get());
 
         try {
-            return   dargahConnection.getAccessToken(request.getOrderListId(),request.getTotalprice(),request.getDiscountId());
+            return   dargahConnection.getAccessToken(request.getOrderListId(),request.getTotalprice(),request.getDiscountId(),phone);
         } catch (IOException e) {
             e.printStackTrace();
         }

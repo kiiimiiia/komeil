@@ -54,6 +54,9 @@ public class Payment extends AuditModel{
     @Column(name = "AccessToken")
     private String  AccessToken;
 
+    @Column(name = "UserCode")
+    private String  UserCode;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -184,5 +187,13 @@ public class Payment extends AuditModel{
 
     public void setAccessToken(String accessToken) {
         AccessToken = accessToken;
+    }
+
+    public String getUserCode() {
+        return UserCode;
+    }
+
+    public void setUserCode(String userCode) {
+        UserCode = userCode;
     }
 }

@@ -12,7 +12,7 @@ public class PaymentVerifyResquest {
     private String  datepaid;
     private String  digitalreceipt;
     private String  issuerbank;
-    private String  cardnumber;
+//    private String  cardnumber;
     private String  payload;
     public Long getOrderListId() {
         return orderListId;
@@ -105,13 +105,13 @@ public class PaymentVerifyResquest {
         this.issuerbank = issuerbank;
     }
 
-    public String getCardnumber() {
-        return cardnumber;
-    }
-
-    public void setCardnumber(String cardnumber) {
-        this.cardnumber = cardnumber;
-    }
+//    public String getCardnumber() {
+//        return cardnumber;
+//    }
+//
+//    public void setCardnumber(String cardnumber) {
+//        this.cardnumber = cardnumber;
+//    }
 
     public String getPayload() {
         return payload;

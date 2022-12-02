@@ -32,7 +32,9 @@ public class DargahConnection {
     PaymentRepository paymentRepository;
     @Autowired
     DiscountRepository discountRepository;
-     public GetAccessTokenResponse getAccessToken(Long orderlistid, String totalprice, Long discountId) throws IOException {
+    @Autowired
+    SmsConfig smsConfig;
+     public GetAccessTokenResponse getAccessToken(Long orderlistid, String totalprice, Long discountId,String phone) throws IOException {
          Discount discount = discountRepository.findById(discountId).get();
          String lastprice = totalprice;
 //         if(discount!=null){
@@ -49,8 +51,8 @@ public class DargahConnection {
          OkHttpClient client = new OkHttpClient().newBuilder()
                  .build();
          MediaType mediaType = MediaType.parse("application/json");
-         RequestBody body = RequestBody.create(mediaType, "{\n    \"Amount\":\""+lastprice+"\",\n\t \"callbackURL\":\"https://backend.komeilshop.com/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
-         System.out.println("{\n    \"Amount\":\""+totalprice+"\",\n\t \"callbackURL\":\"https://backend.komeilshop.com/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\"}\"\n\t \n}");
+         RequestBody body = RequestBody.create(mediaType, "{\n    \"Amount\":\""+lastprice+"\",\n\t \"callbackURL\":\"https://backend.komeilshop.com/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\",\\\"phone\\\":\\\""+phone+"\\\"}\"\n\t \n}");
+         System.out.println("{\n    \"Amount\":\""+totalprice+"\",\n\t \"callbackURL\":\"https://backend.komeilshop.com/web/v1/order/verify?orderLitsid="+orderlistid+"\",\n\t \"invoiceID\":\"611608572200953\",\n\t \"terminalID\":\"61001954\",\n     \"Payload\":\"{\\\"id\\\":\\\""+orderlistid+"\\\",\\\"phone\\\":\\\""+phone+"\\\"}\"\n\t \n}");
          Request request = new Request.Builder()
                  .url("https://mabna.shaparak.ir:8081/V1/PeymentApi/GetToken")
                  .method("POST", body)
@@ -82,7 +84,9 @@ public class DargahConnection {
         System.out.println(paymentVerifyResquest.getPayload());
         PayloadDTO payloadDTO = gson.fromJson(pay,PayloadDTO.class);
         System.out.println(Long.parseLong(payloadDTO.getId()));
-         Payment payment = paymentRepository.findByOrderListIdAndAmount(Long.parseLong(payloadDTO.getId()),0);
+        System.out.println(payloadDTO.getPhone());
+
+        Payment payment = paymentRepository.findByOrderListIdAndAmount(Long.parseLong(payloadDTO.getId()),0);
         OrderList orderList = orderListRepository.findById(Long.parseLong(payloadDTO.getId())).get();
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -100,6 +104,7 @@ public class DargahConnection {
         System.out.println(res);
          gson = new Gson();
 
+        String code = smsConfig.GenerateOtp();
         PaymentVerifyResponse paymentVerifyResponse = gson.fromJson(res,PaymentVerifyResponse.class);
 
                 payment.setRespcode(paymentVerifyResquest.getRespcode());
@@ -110,10 +115,11 @@ public class DargahConnection {
         payment.setTerminalid(paymentVerifyResquest.getTerminalid());
         payment.setTracenumber(paymentVerifyResquest.getTracenumber());
         payment.setRrn(paymentVerifyResquest.getRrn());
+        payment.setUserCode(code);
         payment.setDatePaid(paymentVerifyResquest.getDatepaid());
         payment.setDigitalreceipt(paymentVerifyResquest.getDigitalreceipt());
         payment.setIssuerbank(paymentVerifyResquest.getIssuerbank());
-        payment.setCardnumber(paymentVerifyResquest.getCardnumber());
+//        payment.setCardnumber(paymentVerifyResquest.getCardnumber());
         payment.setUpdatedAt(System.currentTimeMillis() / 1000);
                 if(Objects.equals(paymentVerifyResponse.getStatus(), "NOk")){
                     payment.setOrderStatus(OrderStatus.FAIL);
@@ -128,6 +134,9 @@ public class DargahConnection {
         paymentRepository.save(payment);
 
         if(Objects.equals(paymentVerifyResponse.getStatus(), "NOk")){
+            //////////////////////////////////////////////////////////////
+
+
             return "<div style=\"display: flex;justify-content: center; align-items: center;height: 100vh\">\n" +
                     "\n" +
                     "<div style=\" display: flex; align-items: center;background-color: rgb(127,127,127,0.2);width:350px;height: 450px;border-radius: 10px; flex-direction: column;\">\n" +
@@ -145,7 +154,8 @@ public class DargahConnection {
                     "</div>";
         }
         else{
-
+            String result = smsConfig.SendSuccessSms(payloadDTO.getPhone(),code);
+            System.out.println(result);
             return "<div style=\"display: flex;justify-content: center; align-items: center;height: 100vh\">\n" +
                     "\n" +
                     "<div style=\" display: flex; align-items: center;background-color: rgb(127,127,127,0.2);width:350px;height: 450px;border-radius: 10px; flex-direction: column;\">\n" +
