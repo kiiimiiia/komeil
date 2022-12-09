@@ -80,7 +80,7 @@ public class LandingServiceImp implements LandingService{
     }
 
     public List<Blog> getAllBlogs(){
-        return blogRepository.findAll();
+        return blogRepository.findAllByEnable(true);
     }
 
     public  List<BrandResponseDTO> getAllBrands()

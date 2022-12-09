@@ -23,7 +23,12 @@ public class ProductCategory {
     private String imageUrl;
     @Column(name = "parent_id")
     private Integer parentCategoryId ;
-
+    @Column(name = "descriptionMetatag")
+    private String descriptionMetatag;
+    @Column(name = "canonicalMetatag")
+    private String canonicalMetatag;
+    @Column(name = "titleMetatag")
+    private String titleMetatag;
 
     public ProductCategory() {
     }
@@ -68,5 +73,29 @@ public class ProductCategory {
 
     public void setParentCategoryId(Integer parentCategoryId) {
         this.parentCategoryId = parentCategoryId;
+    }
+
+    public String getDescriptionMetatag() {
+        return descriptionMetatag;
+    }
+
+    public void setDescriptionMetatag(String descriptionMetatag) {
+        this.descriptionMetatag = descriptionMetatag;
+    }
+
+    public String getCanonicalMetatag() {
+        return canonicalMetatag;
+    }
+
+    public void setCanonicalMetatag(String canonicalMetatag) {
+        this.canonicalMetatag = canonicalMetatag;
+    }
+
+    public String getTitleMetatag() {
+        return titleMetatag;
+    }
+
+    public void setTitleMetatag(String titleMetatag) {
+        this.titleMetatag = titleMetatag;
     }
 }

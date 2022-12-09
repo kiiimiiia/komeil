@@ -94,6 +94,9 @@ public class AdminServiceImp implements AdminService {
             productItem.setProductLength(addProductRequestDTO.getProductLength());
             productItem.setBoxHeight(addProductRequestDTO.getBoxHeight());
             productItem.setBoxLength(addProductRequestDTO.getBoxLength());
+            productItem.setDescriptionMetatag(addProductRequestDTO.getDescriptionMetatag());
+            productItem.setTitleMetatag(addProductRequestDTO.getTitleMetatag());
+            productItem.setCanonicalMetatag(addProductRequestDTO.getCanonicalMetatag());
             productItem.setHave(true);
             productItem.setBoxWidth(addProductRequestDTO.getBoxWidth());
             try {
@@ -184,6 +187,9 @@ public class AdminServiceImp implements AdminService {
             productItem.get().setNetPrice(addProductRequestDTO.getNetPrice());
             productItem.get().setWeight(addProductRequestDTO.getWeight());
             productItem.get().setDiscount(addProductRequestDTO.getDiscount());
+            productItem.get().setDescriptionMetatag(addProductRequestDTO.getDescriptionMetatag());
+            productItem.get().setTitleMetatag(addProductRequestDTO.getTitleMetatag());
+            productItem.get().setCanonicalMetatag(addProductRequestDTO.getCanonicalMetatag());
             productItem.get().setUpdatedAt(System.currentTimeMillis() / 1000);
             productItem.get().setStock(addProductRequestDTO.getStock());
             productItem.get().setRate(addProductRequestDTO.getRate());
@@ -251,6 +257,9 @@ public class AdminServiceImp implements AdminService {
                 productItemResponseDTO.setMaterial(productItems.get(i).getMaterial());
                 productItemResponseDTO.setHave(productItems.get(i).getHave());
                 productItemResponseDTO.setBoxWidth(productItems.get(i).getBoxWidth());
+                productItemResponseDTO.setDescriptionMetatag(productItems.get(i).getDescriptionMetatag());
+                productItemResponseDTO.setTitleMetatag(productItems.get(i).getTitleMetatag());
+                productItemResponseDTO.setCanonicalMetatag(productItems.get(i).getCanonicalMetatag());
 //                System.out.println(productItems.get(i).getProductCategory());
                 Optional<ProductCategory> productCategory = productCategoryRepository.findById(productItems.get(i).getProductCategory());
                 productItemResponseDTO.setCategoryname(productCategory.get().getName());
@@ -318,6 +327,10 @@ public class AdminServiceImp implements AdminService {
                 productCategoryResponseDTOS.setName(productCategories.get(i).getName());
                 productCategoryResponseDTOS.setEnable(productCategories.get(i).isEnable());
                 productCategoryResponseDTOS.setImageUrl(productCategories.get(i).getImageUrl());
+
+                productCategoryResponseDTOS.setCanonicalMetatag(productCategories.get(i).getCanonicalMetatag());
+                productCategoryResponseDTOS.setDescriptionMetatag(productCategories.get(i).getDescriptionMetatag());
+                productCategoryResponseDTOS.setTitleMetatag(productCategories.get(i).getTitleMetatag());
                 if(productCategories.get(i).getParentCategoryId()!=0){
                     ProductCategory productCategory =productCategoryRepository.findById(productCategories.get(i).getParentCategoryId().longValue()).get();
                     productCategoryResponseDTOS.setParentName(productCategory.getName());
@@ -343,6 +356,9 @@ public class AdminServiceImp implements AdminService {
             productCategory.setEnable(true);
             productCategory.setImageUrl(addCategoryRequestDTO.getImageUrl());
             productCategoryRepository.save(productCategory);
+            productCategory.setCanonicalMetatag(addCategoryRequestDTO.getCanonicalMetatag());
+            productCategory.setDescriptionMetatag(addCategoryRequestDTO.getDescriptionMetatag());
+            productCategory.setTitleMetatag(addCategoryRequestDTO.getTitleMetatag());
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
             baseResponseDTO.setMessage("دسته بندی مورد نظر ثبت شد");
@@ -372,6 +388,9 @@ public class AdminServiceImp implements AdminService {
             productCategory.get().setName(addCategoryRequestDTO.getName());
             productCategory.get().setImageUrl(addCategoryRequestDTO.getImageUrl());
             productCategory.get().setParentCategoryId(addCategoryRequestDTO.getParentCategory());
+            productCategory.get().setTitleMetatag(addCategoryRequestDTO.getTitleMetatag());
+            productCategory.get().setCanonicalMetatag(addCategoryRequestDTO.getCanonicalMetatag());
+            productCategory.get().setDescriptionMetatag(addCategoryRequestDTO.getDescriptionMetatag());
             productCategoryRepository.save(productCategory.get());
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
@@ -573,6 +592,9 @@ else{
             blog.setFirstadditionalimage(newsRequestDTO.getFirstadditionalimage());
             blog.setSecondadditionalimage(newsRequestDTO.getSecondadditionalimage());
             blog.setThirdadditionalimage(newsRequestDTO.getThirdadditionalimage());
+            blog.setCanonicalMetatag(newsRequestDTO.getCanonicalMetatag());
+            blog.setTitleMetatag(newsRequestDTO.getTitleMetatag());
+            blog.setDescriptionMetatag(newsRequestDTO.getDescriptionMetatag());
             blogRepository.save(blog);
             BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
@@ -600,6 +622,9 @@ else{
                 blog.get().setFirstadditionalimage(newsRequestDTO.getFirstadditionalimage());
                 blog.get().setSecondadditionalimage(newsRequestDTO.getSecondadditionalimage());
                 blog.get().setThirdadditionalimage(newsRequestDTO.getThirdadditionalimage());
+                blog.get().setDescriptionMetatag(newsRequestDTO.getDescriptionMetatag());
+                blog.get().setTitleMetatag(newsRequestDTO.getTitleMetatag());
+                blog.get().setCanonicalMetatag(newsRequestDTO.getCanonicalMetatag());
                 long currentTimestamp = System.currentTimeMillis();
                 blog.get().setUpdated_at(currentTimestamp);
                 blogRepository.save(blog.get());
@@ -1336,6 +1361,9 @@ else{
 
             config.setAboutUsPartOne(configRequestDTO.getPartoneaboutus());
             config.setAboutUsPartTwo(configRequestDTO.getParttwoaboutus());
+            config.setCanonicalMetatag(configRequestDTO.getCanonicalMetatag());
+            config.setDescriptionMetatag(configRequestDTO.getDescriptionMetaTag());
+            config.setTitleMetatag(config.getTitleMetatag());
             configRepository.save(config);   BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
             baseResponseDTO.setMessage("با موفقیت ثبت شد");

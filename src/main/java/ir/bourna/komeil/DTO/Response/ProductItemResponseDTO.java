@@ -29,6 +29,9 @@ private String brandname;
 private List<Color> colorsList;
     private Boolean enable;
     private String productWidth;
+    private String descriptionMetatag;
+    private String canonicalMetatag;
+    private String titleMetatag;
     private String productLength;
     private String productHeight;
     private String boxWidth;
@@ -269,5 +272,29 @@ private List<Color> colorsList;
 
     public void setCount(String count) {
         this.count = count;
+    }
+
+    public String getDescriptionMetatag() {
+        return descriptionMetatag;
+    }
+
+    public void setDescriptionMetatag(String descriptionMetatag) {
+        this.descriptionMetatag = descriptionMetatag;
+    }
+
+    public String getCanonicalMetatag() {
+        return canonicalMetatag;
+    }
+
+    public void setCanonicalMetatag(String canonicalMetatag) {
+        this.canonicalMetatag = canonicalMetatag;
+    }
+
+    public String getTitleMetatag() {
+        return titleMetatag;
+    }
+
+    public void setTitleMetatag(String titleMetatag) {
+        this.titleMetatag = titleMetatag;
     }
 }

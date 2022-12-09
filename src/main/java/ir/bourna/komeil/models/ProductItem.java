@@ -57,6 +57,12 @@ public class ProductItem extends AuditModel{
         @Column(name = "material")
         private String material;
 
+        @Column(name = "descriptionMetatag")
+        private String descriptionMetatag;
+        @Column(name = "canonicalMetatag")
+        private String canonicalMetatag;
+        @Column(name = "titleMetatag")
+        private String titleMetatag;
 
         @Column(name = "have")
         private Boolean have;
@@ -299,5 +305,29 @@ public class ProductItem extends AuditModel{
 
         public void setMaterial(String material) {
                 this.material = material;
+        }
+
+        public String getDescriptionMetatag() {
+                return descriptionMetatag;
+        }
+
+        public void setDescriptionMetatag(String descriptionMetatag) {
+                this.descriptionMetatag = descriptionMetatag;
+        }
+
+        public String getCanonicalMetatag() {
+                return canonicalMetatag;
+        }
+
+        public void setCanonicalMetatag(String canonicalMetatag) {
+                this.canonicalMetatag = canonicalMetatag;
+        }
+
+        public String getTitleMetatag() {
+                return titleMetatag;
+        }
+
+        public void setTitleMetatag(String titleMetatag) {
+                this.titleMetatag = titleMetatag;
         }
 }

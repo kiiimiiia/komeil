@@ -16,7 +16,12 @@ public class Config {
     private String aboutUsPartOne;
     @Column(name = "about_us_part_two")
     private String aboutUsPartTwo;
-
+    @Column(name = "descriptionMetatag")
+    private String descriptionMetatag;
+    @Column(name = "canonicalMetatag")
+    private String canonicalMetatag;
+    @Column(name = "titleMetatag")
+    private String titleMetatag;
     public Config() {
     }
 
@@ -42,5 +47,29 @@ public class Config {
 
     public void setAboutUsPartTwo(String aboutUsPartTwo) {
         this.aboutUsPartTwo = aboutUsPartTwo;
+    }
+
+    public String getDescriptionMetatag() {
+        return descriptionMetatag;
+    }
+
+    public void setDescriptionMetatag(String descriptionMetatag) {
+        this.descriptionMetatag = descriptionMetatag;
+    }
+
+    public String getCanonicalMetatag() {
+        return canonicalMetatag;
+    }
+
+    public void setCanonicalMetatag(String canonicalMetatag) {
+        this.canonicalMetatag = canonicalMetatag;
+    }
+
+    public String getTitleMetatag() {
+        return titleMetatag;
+    }
+
+    public void setTitleMetatag(String titleMetatag) {
+        this.titleMetatag = titleMetatag;
     }
 }
