@@ -39,4 +39,6 @@ public interface LandingService {
     List<ProductItemResponseDTO> getfirstpageproduct();
 
     ResponseEntity<BaseResponse> getOtp(String phone);
+
+    ResponseEntity<ProductCategory> getdetailcategory(String id);
 }

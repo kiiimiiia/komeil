@@ -79,6 +79,10 @@ public class LandingController {
     public ResponseEntity<List<ProductItemResponseDTO>> getbrandproduct(@RequestParam("brandid") String id){
         return landingService.getbrandproduct(id);
     }
+    @RequestMapping(value = "/getdetailcategory", method = RequestMethod.GET)
+    public ResponseEntity<ProductCategory> getdetailcategory(@RequestParam("categoryid") String id ){
+        return landingService.getdetailcategory(id );
+    }
     @RequestMapping(value = "/getbranddetail", method = RequestMethod.GET)
     public ResponseEntity<Brand> getbranddetail(@RequestParam("brandid") String id){
         return landingService.getbranddetail(id);

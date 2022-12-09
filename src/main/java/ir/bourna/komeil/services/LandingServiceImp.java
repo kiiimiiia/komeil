@@ -416,4 +416,8 @@ productItemResponseDTO.setHave(productItems.getHave());
 //        return ResponseEntity.ok(baseResponse);
         return null;
     }
+    public ResponseEntity<ProductCategory> getdetailcategory(String id) {
+        ProductCategory productCategory = productCategoryRepository.findById(Long.parseLong(id)).get();
+        return ResponseEntity.ok(productCategory);
+    }
 }
