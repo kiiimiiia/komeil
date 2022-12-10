@@ -21,6 +21,7 @@ public class ProductItemResponseDTO {
     private Set<Color> colors = new HashSet<>();
     private Long brandID;
     private Long productCategoryID;
+    private String altImg;
     private String categoryname;
     private Set<ProductAdditionalImage> productAdditionalImages = new HashSet<>();
     private String Hash;
@@ -296,5 +297,13 @@ private List<Color> colorsList;
 
     public void setTitleMetatag(String titleMetatag) {
         this.titleMetatag = titleMetatag;
+    }
+
+    public String getAltImg() {
+        return altImg;
+    }
+
+    public void setAltImg(String altImg) {
+        this.altImg = altImg;
     }
 }

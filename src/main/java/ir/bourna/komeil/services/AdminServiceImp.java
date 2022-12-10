@@ -255,6 +255,7 @@ public class AdminServiceImp implements AdminService {
                 productItemResponseDTO.setProductWidth(productItems.get(i).getProductWidth());
                 productItemResponseDTO.setBoxHeight(productItems.get(i).getBoxHeight());
                 productItemResponseDTO.setBoxLength(productItems.get(i).getBoxLength());
+                productItemResponseDTO.setAltImg(productItems.get(i).getAltImg());
                 productItemResponseDTO.setWeight(productItems.get(i).getWeight());
                 productItemResponseDTO.setCount(productItems.get(i).getCount());
                 productItemResponseDTO.setMaterial(productItems.get(i).getMaterial());
