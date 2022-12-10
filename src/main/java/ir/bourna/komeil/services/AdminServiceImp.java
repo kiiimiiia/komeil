@@ -97,6 +97,7 @@ public class AdminServiceImp implements AdminService {
             productItem.setDescriptionMetatag(addProductRequestDTO.getDescriptionMetatag());
             productItem.setTitleMetatag(addProductRequestDTO.getTitleMetatag());
             productItem.setCanonicalMetatag(addProductRequestDTO.getCanonicalMetatag());
+            productItem.setAltImg(addProductRequestDTO.getAltImg());
             productItem.setHave(true);
             productItem.setBoxWidth(addProductRequestDTO.getBoxWidth());
             try {
@@ -198,6 +199,8 @@ public class AdminServiceImp implements AdminService {
             productItem.get().setProductLength(addProductRequestDTO.getProductLength());
             productItem.get().setBoxHeight(addProductRequestDTO.getBoxHeight());
             productItem.get().setMaterial(addProductRequestDTO.getMaterial());
+            productItem.get().setAltImg(addProductRequestDTO.getAltImg());
+
             productItem.get().setCount(addProductRequestDTO.getCount());
             productItem.get().setHave(true);
             productItem.get().setBoxLength(addProductRequestDTO.getBoxLength());

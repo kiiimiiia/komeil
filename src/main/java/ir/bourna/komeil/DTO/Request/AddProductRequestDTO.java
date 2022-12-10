@@ -14,6 +14,7 @@ public class AddProductRequestDTO {
     private Integer netPrice;
     private Integer discount;
     private Long stock;
+    private String altImg;
     private Long brandId;
     private Long categoryId;
     private String[] additinoalimage;
@@ -223,5 +224,13 @@ private Integer rate;
 
     public void setTitleMetatag(String titleMetatag) {
         this.titleMetatag = titleMetatag;
+    }
+
+    public String getAltImg() {
+        return altImg;
+    }
+
+    public void setAltImg(String altImg) {
+        this.altImg = altImg;
     }
 }

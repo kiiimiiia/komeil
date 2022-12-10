@@ -56,7 +56,8 @@ public class ProductItem extends AuditModel{
 
         @Column(name = "material")
         private String material;
-
+        @Column(name = "altImg")
+        private String altImg;
         @Column(name = "descriptionMetatag")
         private String descriptionMetatag;
         @Column(name = "canonicalMetatag")
@@ -329,5 +330,13 @@ public class ProductItem extends AuditModel{
 
         public void setTitleMetatag(String titleMetatag) {
                 this.titleMetatag = titleMetatag;
+        }
+
+        public String getAltImg() {
+                return altImg;
+        }
+
+        public void setAltImg(String altImg) {
+                this.altImg = altImg;
         }
 }
