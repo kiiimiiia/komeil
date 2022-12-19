@@ -1367,7 +1367,7 @@ else{
             config.setAboutUsPartTwo(configRequestDTO.getParttwoaboutus());
             config.setCanonicalMetatag(configRequestDTO.getCanonicalMetatag());
             config.setDescriptionMetatag(configRequestDTO.getDescriptionMetaTag());
-            config.setTitleMetatag(config.getTitleMetatag());
+            config.setTitleMetatag(configRequestDTO.getTitleMetatag());
             configRepository.save(config);   BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
             baseResponseDTO.setCode(200);
             baseResponseDTO.setMessage("با موفقیت ثبت شد");
