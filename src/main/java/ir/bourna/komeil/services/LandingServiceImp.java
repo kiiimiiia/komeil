@@ -248,6 +248,7 @@ productItemResponseDTO.setHave(productItems.getHave());
                 productItemResponseDTO.setCategoryname(productCategory.get().getName());
                 Optional<Brand> brand = brandRepository.findById(productItems.get(i).getBrandId());
                 productItemResponseDTO.setBrandname(brand.get().getTitle());
+                productItemResponseDTO.setAltImg(productItems.get(i).getAltImg());
                 productItemResponseDTO.setEnable(productItems.get(i).getEnable());
                 productItemResponseDTO.setHave(productItems.get(i).getHave());
                 productItemResponseDTOS.add(productItemResponseDTO);
