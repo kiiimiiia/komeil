@@ -145,7 +145,11 @@ public class AdminController {
 
         return adminService.GetAllPayedOrders(username);
     }
+    @PutMapping("/changestateorders")
+    public BaseResponseDTO changestateorders(@RequestParam String username,@RequestParam Long id) {
 
+        return adminService.changestateorders(username,id);
+    }
     //--------TRANSPORT CRUD----------
 
     @PostMapping("/transport")

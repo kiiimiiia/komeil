@@ -822,6 +822,10 @@ else{
         Admins admins = adminsRepository.findByUsername(username);
         if(admins.getTransport_role()){
             List<OrderList> orders = orderListRepository.findAllByOrderStatus(OrderStatus.PAID);
+            List<OrderList> orders1 = orderListRepository.findAllByOrderStatus(OrderStatus.SENT);
+            for (int i = 0; i < orders1.size() ; i++) {
+                orders.add(orders1.get(i));
+            }
             List<OrderListResponseDTO> orderLists = new ArrayList<>();
             HashMap<String,String> productItems = new HashMap<>();
             List<HashMap<String,String>> hashMaps = new ArrayList<>();
@@ -834,6 +838,8 @@ else{
                 System.out.println(orders.get(i).getDescription());
                 orderListResponseDTO.setSetAddress(orders.get(i).getUser().getAddresses());
                 orderListResponseDTO.setOrderListStatus(orders.get(i).getOrderStatus());
+                orderListResponseDTO.setUsername(orders.get(i).getUser().getFirstName()+" "+orders.get(i).getUser().getLastName());
+                orderListResponseDTO.setPhone(orders.get(i).getUser().getMobile());
                 for (OrderListProductItemNumber orderListProductItemNumber :orders.get(i).getOrderListProductItemNumberSet()) {
                     productItems = new HashMap<>();
                     productItems.put("ProductItemNumber", String.valueOf(orderListProductItemNumber.getNumber()));
@@ -962,6 +968,23 @@ else{
             baseResponseDTO.setMessage("اجازه ندارید");
             return baseResponseDTO;
         }    }
+
+
+    @Override
+    public BaseResponseDTO changestateorders(String username, Long id) {
+        Admins admins = adminsRepository.findByUsername(username);
+        if(admins.getProduct_role()) {
+OrderList orderList = orderListRepository.findById(id).get();
+orderList.setOrderStatus(OrderStatus.SENT);
+orderListRepository.save(orderList);
+            BaseResponseDTO baseResponseDTO = new BaseResponseDTO();
+            baseResponseDTO.setCode(200);
+            baseResponseDTO.setMessage(" ثبت شد");
+            return baseResponseDTO;
+        }
+
+        return null;
+    }
 
     //--------TRANSPORT CRUD----------
     @Override

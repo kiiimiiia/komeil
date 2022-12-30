@@ -133,4 +133,6 @@ public interface AdminService {
     BaseResponseDTO additionalimage(Long id, String username);
 
     BaseResponseDTO deleteAmazingOffer(String username, Long id);
+
+    BaseResponseDTO changestateorders(String username, Long id);
 }

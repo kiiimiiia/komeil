@@ -1,6 +1,7 @@
 package ir.bourna.komeil.DTO.Response;
 
 import ir.bourna.komeil.models.Enums.OrderStatus;
+import ir.bourna.komeil.models.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,9 @@ public class OrderListResponseDTO {
     private String description;
     private OrderStatus orderStatus;
     private List<HashMap<String,String>> productItems;
+
+    private String username;
+    private String phone;
 
     public Long getId() {
         return id;
@@ -51,5 +55,21 @@ public class OrderListResponseDTO {
 
     public void setProductItems(List<HashMap<String, String>> productItems) {
         this.productItems = productItems;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
